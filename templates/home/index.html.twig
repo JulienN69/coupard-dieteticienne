@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %} {% block title %}Hello HomeController!{% endblock
+%} {% block body %}
+
+<div class="example-wrapper">
+	<h1>Hello {{ controller_name }}! ✅</h1>
+
+	This friendly message is coming from:
+	<ul>
+		<li>
+			Your controller at
+			<code
+				>C:/Users/nesme/Desktop/Projets
+				web/sandrine-coupard-diététicienne/src/Controller/HomeController.php</code
+			>
+		</li>
+		<li>
+			Your template at
+			<code
+				>C:/Users/nesme/Desktop/Projets
+				web/sandrine-coupard-diététicienne/templates/home/index.html.twig</code
+			>
+		</li>
+	</ul>
+
+    <div {{ react_component('Hello', { fullName: 'Fabien' }) }}>
+        Loading... <i class="fas fa-cog fa-spin fa-3x"></i>
+    </div>
+
+    
+</div>
+{% endblock %}
