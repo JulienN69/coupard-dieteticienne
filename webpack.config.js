@@ -25,7 +25,7 @@ Encore
 	// When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
 	.splitEntryChunks()
 
-    .enableReactPreset()
+	.enableReactPreset()
 
 	// enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
 	.enableStimulusBridge("./assets/controllers.json")
@@ -62,7 +62,7 @@ Encore
 	.enableSassLoader()
 
 	// uncomment if you use TypeScript
-	//.enableTypeScriptLoader()
+	// .enableTypeScriptLoader()
 
 	// uncomment if you use React
 	.enableReactPreset();
