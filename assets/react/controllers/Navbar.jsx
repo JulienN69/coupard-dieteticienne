@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar() {
-	const [isOpen, setIsOpen] = useState(true);
+	const [isOpen, setIsOpen] = useState(false);
 
 	function openSidebar() {
 		return setIsOpen(true);
@@ -11,9 +13,9 @@ export default function Navbar() {
 	}
 
 	return (
-		<div className={`sidebar ${isOpen ? "active" : "inactive"}`}>
-			<nav className="sidebar__nav">
-				<a href="#">Sandrine Coupard</a>
+		<div className={`sidebar ${isOpen ? "light" : "dark"}`}>
+			<nav className={`sidebar__nav ${isOpen ? "active" : "inactive"}`}>
+				<span>Sandrine Coupard</span>
 				<a href="#">Home</a>
 				<a href="#">About</a>
 				<a href="#">Services</a>
@@ -21,13 +23,20 @@ export default function Navbar() {
 				<a href="#">Recettes</a>
 				<a href="#">Connexion</a>
 			</nav>
-			<div className="sidebar__btn">
+			<div className={`sidebar__btn ${isOpen ? "darken" : "lighten"}`}>
 				<button
 					type="button"
 					aria-label="Close menu"
-					onClick={closeSidebar}
+					onClick={isOpen ? closeSidebar : openSidebar}
+					className={`${isOpen ? "hamburgerBtn" : "closeBtn"}`}
 				>
-					<div>&#215;</div>
+					<div>
+						{isOpen ? (
+							<FontAwesomeIcon icon={faXmark} />
+						) : (
+							<FontAwesomeIcon icon={faBars} />
+						)}
+					</div>
 				</button>
 			</div>
 		</div>

@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap')
+
+@mixin fontReenie($font-weight:400, $font-style:normal)
+	font-family: "Reenie Beanie", cursive
+	font-weight: $font-weight
+	font-style: $font-style
+
+@mixin backgroundImage($url: "", $opacity: 1)
+	&::before
+		content: ' '
+		position: absolute
+		left: 0
+		top: 0
+		width: 100%
+		height: 100%
+		opacity: $opacity
+		background-image: url($url)
+		background-repeat: no-repeat
+		background-position: 50% 0
+		background-size: cover
+		z-index: -1
+
+@mixin title($color: black, $fontSize: 2rem, $font-weight: normal)
+	text-transform: uppercase
+	color: $color
+	font-size: $fontSize
+	font-weight: $font-weight
+
+@mixin min-width($min-width)
+	@media screen and (min-width: $min-width)
+		@content
