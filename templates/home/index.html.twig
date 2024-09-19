@@ -1,1 +1,18 @@
-{% extends 'base.html.twig' %} {% block body %} {% endblock %}
+{% extends 'base.html.twig' %} 
+
+{% block body %}
+
+<section class="sectionRecipes">
+	<h2>Dernières recettes</h2>
+		<div class="sectionRecipes__container">
+
+			<div {{ react_component('Recipes')}}></div>
+
+			<div class="btnDark">
+				<a href="#">En voir +</a>
+			</div>
+		</div>
+</section>
+
+
+{% endblock %}

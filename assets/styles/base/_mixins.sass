@@ -29,3 +29,9 @@
 @mixin min-width($min-width)
 	@media screen and (min-width: $min-width)
 		@content
+
+@mixin flex-center($flexDirection: column)
+	display: flex
+	flex-direction: $flexDirection
+	justify-content: center
+	align-items: center

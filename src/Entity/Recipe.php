@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,6 +11,10 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups'=> ['read:collection']],
+    paginationItemsPerPage: 3
+)]
 class Recipe
 {
     #[ORM\Id]
@@ -16,38 +22,48 @@ class Recipe
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['read:collection'])]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Groups(['read:collection'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[Groups(['read:collection'])]
     #[ORM\Column]
     private ?int $preparationTime = null;
 
+    #[Groups(['read:collection'])]
     #[ORM\Column(nullable: true)]
     private ?int $restingTime = null;
 
+    #[Groups(['read:collection'])]
     #[ORM\Column(nullable: true)]
     private ?int $cookingTime = null;
 
     /**
      * @var Collection<int, ingredient>
      */
-    #[ORM\ManyToMany(targetEntity: ingredient::class, inversedBy: 'recipes')]
+    #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'recipes')]
     private Collection $ingredients;
 
     /**
      * @var Collection<int, diet>
      */
-    #[ORM\ManyToMany(targetEntity: diet::class, inversedBy: 'recipes')]
+    #[ORM\ManyToMany(targetEntity: Diet::class, inversedBy: 'recipes')]
     private Collection $diets;
 
     /**
      * @var Collection<int, allergen>
      */
-    #[ORM\ManyToMany(targetEntity: allergen::class, inversedBy: 'recipes')]
+    #[ORM\ManyToMany(targetEntity: Allergen::class, inversedBy: 'recipes')]
     private Collection $allergens;
+
+
+    #[Groups(['read:collection'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
 
     public function __construct()
     {
@@ -129,7 +145,7 @@ class Recipe
         return $this->ingredients;
     }
 
-    public function addIngredient(ingredient $ingredient): static
+    public function addIngredient(Ingredient $ingredient): static
     {
         if (!$this->ingredients->contains($ingredient)) {
             $this->ingredients->add($ingredient);
@@ -138,7 +154,7 @@ class Recipe
         return $this;
     }
 
-    public function removeIngredient(ingredient $ingredient): static
+    public function removeIngredient(Ingredient $ingredient): static
     {
         $this->ingredients->removeElement($ingredient);
 
@@ -153,7 +169,7 @@ class Recipe
         return $this->diets;
     }
 
-    public function addDiet(diet $diet): static
+    public function addDiet(Diet $diet): static
     {
         if (!$this->diets->contains($diet)) {
             $this->diets->add($diet);
@@ -162,7 +178,7 @@ class Recipe
         return $this;
     }
 
-    public function removeDiet(diet $diet): static
+    public function removeDiet(Diet $diet): static
     {
         $this->diets->removeElement($diet);
 
@@ -177,7 +193,7 @@ class Recipe
         return $this->allergens;
     }
 
-    public function addAllergen(allergen $allergen): static
+    public function addAllergen(Allergen $allergen): static
     {
         if (!$this->allergens->contains($allergen)) {
             $this->allergens->add($allergen);
@@ -186,9 +202,21 @@ class Recipe
         return $this;
     }
 
-    public function removeAllergen(allergen $allergen): static
+    public function removeAllergen(Allergen $allergen): static
     {
         $this->allergens->removeElement($allergen);
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

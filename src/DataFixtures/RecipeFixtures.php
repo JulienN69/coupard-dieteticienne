@@ -26,6 +26,7 @@ class RecipeFixtures extends Fixture  implements DependentFixtureInterface
             $recipe->setPreparationTime($faker->numberBetween(5, 300));
             $recipe->setCookingTime($faker->numberBetween(5, 300));
             $recipe->setRestingTime($faker->numberBetween(5, 300));
+            $recipe->setImage('uploads/recettes/chicken.jpg');
             $recipe->addDiet($this->getReference($diets[array_rand($diets)]));
 
 
