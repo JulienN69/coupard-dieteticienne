@@ -10,7 +10,7 @@
 	z-index: 199
 	display: flex
 	width: 100%
-	@include min-width("700px")
+	@include min-width("800px")
 		display: none
 	&__btn
 		flex-grow: 1
@@ -92,31 +92,42 @@
 	display: flex
 	position: relative
 	flex-direction: column
-	height: 300px
-	@include backgroundImage('../../images/vegetables.jpg', 0.5)
+	height: 350px
+	@include backgroundImage('../../images/vegetables.jpg', 0.4)
 
 	&__navbar
 		background-color: $black
 		color: $white
 		display: flex
 		justify-content: center
-		gap: 20px
-		font-size: 2rem
+		gap: 50px
+		font-size: clamp(1.5rem, 5vw, 3rem)
 		padding: 1rem
-		height: 70px
+		height: 80px
+		text-transform: uppercase
 		a
 			display: none
-			@include min-width("700px")
+			@include min-width("800px")
 				display: block
+			&:hover
+				text-decoration: underline
 
 	&__title
 		display: flex
 		flex-direction: column
 		align-items: center
 		padding: 2rem
-		font-size: 1em
+		height: 100%
+		justify-content: center
 		h1
-			@include title
+			@include title($black, 3rem)
+			margin: 0
+			@include min-width("800px")
+				font-size: 6rem
 		h2
-			@include title($green)
 			text-align: center
+			font-family: 'Baloo Bhaina'
+			font-size: 2rem
+			color: $green
+			@include min-width("800px")
+				font-size: 3rem
