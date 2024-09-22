@@ -2,18 +2,34 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use Symfony\Component\Serializer\Annotation\Groups;
-use App\Repository\RecipeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\CountController;
+use App\Repository\RecipeRepository;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups'=> ['read:collection']],
-    paginationItemsPerPage: 3
+    paginationItemsPerPage: 3,
+    operations: [
+        new GetCollection(), // Opération par défaut pour obtenir une collection de recettes
+        new Get(),           // Opération par défaut pour obtenir une seule recette
+        new Post(),
+        new Get(
+            uriTemplate: '/get/recipes/count',
+            controller: CountController::class,
+            read: false,
+            description: 'publish',
+            shortName: 'compteur'
+        ),
+    ]
 )]
 class Recipe
 {
@@ -45,18 +61,21 @@ class Recipe
     /**
      * @var Collection<int, ingredient>
      */
+    #[Groups(['read:collection'])]
     #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'recipes')]
     private Collection $ingredients;
 
     /**
      * @var Collection<int, diet>
      */
+    #[Groups(['read:collection'])]
     #[ORM\ManyToMany(targetEntity: Diet::class, inversedBy: 'recipes')]
     private Collection $diets;
 
     /**
      * @var Collection<int, allergen>
      */
+    #[Groups(['read:collection'])]
     #[ORM\ManyToMany(targetEntity: Allergen::class, inversedBy: 'recipes')]
     private Collection $allergens;
 
