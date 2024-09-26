@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[ApiResource(
@@ -62,6 +63,7 @@ class Recipe
      * @var Collection<int, ingredient>
      */
     #[Groups(['read:collection'])]
+    #[MaxDepth(50)]
     #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'recipes')]
     private Collection $ingredients;
 
@@ -69,6 +71,7 @@ class Recipe
      * @var Collection<int, diet>
      */
     #[Groups(['read:collection'])]
+    #[MaxDepth(2)]
     #[ORM\ManyToMany(targetEntity: Diet::class, inversedBy: 'recipes')]
     private Collection $diets;
 
@@ -76,19 +79,30 @@ class Recipe
      * @var Collection<int, allergen>
      */
     #[Groups(['read:collection'])]
+    #[MaxDepth(2)]
     #[ORM\ManyToMany(targetEntity: Allergen::class, inversedBy: 'recipes')]
     private Collection $allergens;
 
 
     #[Groups(['read:collection'])]
+    #[MaxDepth(2)]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+    /**
+     * @var Collection<int, Steps>
+     */
+    #[Groups(['read:collection'])]
+    #[MaxDepth(2)]
+    #[ORM\OneToMany(targetEntity: Steps::class, mappedBy: 'recipe')]
+    private Collection $steps;
 
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
         $this->diets = new ArrayCollection();
         $this->allergens = new ArrayCollection();
+        $this->steps = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -236,6 +250,33 @@ class Recipe
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Steps>
+     */
+    public function getSteps(): Collection
+    {
+        return $this->steps;
+    }
+
+    public function addStep(Steps $step): static
+    {
+        if (!$this->steps->contains($step)) {
+            $this->steps->add($step);
+            $step->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStep(Steps $step): static
+    {
+        if ($this->steps->removeElement($step) && $step->getRecipe() === $this) {
+        $step->setRecipe(null);
+}
 
         return $this;
     }

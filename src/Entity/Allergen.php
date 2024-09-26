@@ -29,6 +29,10 @@ class Allergen
     #[ORM\ManyToMany(targetEntity: Recipe::class, mappedBy: 'allergens')]
     private Collection $recipes;
 
+    #[Groups(['read:collection'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     public function __construct()
     {
         $this->recipes = new ArrayCollection();
@@ -74,6 +78,18 @@ class Allergen
         if ($this->recipes->removeElement($recipe)) {
             $recipe->removeAllergen($this);
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

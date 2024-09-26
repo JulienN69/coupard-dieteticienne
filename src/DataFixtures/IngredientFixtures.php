@@ -20,6 +20,7 @@ class IngredientFixtures extends Fixture
         for ($i = 0; $i < count($ingredients); $i++) {
             $ingredient = new Ingredient();
             $ingredient->setName($ingredients[$i]);
+			$ingredient->setImage('uploads/ingredients/sucre.jpg');
 			$this->addReference($i, $ingredient);
 
 			$manager->persist($ingredient);

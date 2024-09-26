@@ -18,6 +18,7 @@ class AllergenFixtures extends Fixture
         for ($i = 0; $i < count($allergens); $i++) {
             $allergen = new Allergen();
             $allergen->setName($allergens[$i]);
+            $allergen->setImage('uploads/allergens/peanuts.jpg');
 
             $this->addReference('allergen_' . $i, $allergen);
 
