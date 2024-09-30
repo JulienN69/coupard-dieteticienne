@@ -1,8 +1,10 @@
+
 {% extends 'base.html.twig' %} 
 
 {% block body %}
 
-<div {{ react_component('Recipe', {'id': recipe.id}) }}></div>
+<div {{ react_component('RecipeDetail', {'id': recipe.id}) }}></div>
+<div {{ react_component('Comments', {'id': recipe.id})  }}></div>
 
 
 {% endblock %}

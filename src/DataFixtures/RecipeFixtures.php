@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use App\Entity\Steps;
 use App\Entity\Recipe;
-use App\DataFixtures\StepsFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -17,16 +16,16 @@ class RecipeFixtures extends Fixture  implements DependentFixtureInterface
         $diets = ['vegan', 'sucre', 'vege', 'gluten'];
 
         $stepDescriptions = [
-            "Couper les légumes",
-            "Faire chauffer l'huile",
-            "Ajouter les épices",
-            "Mélanger le tout",
-            "Faire mijoter à feu doux",
-            "Servir chaud avec du riz",
-            "Faire griller au four",
-            "Ajouter les oeufs battus",
-            "Verser la sauce",
-            "Égoutter les pâtes"
+            "Couper les légumes en petits morceaux, après les avoir éplucher soigneusement.",
+            "Faire chauffer l'huile dans une poelle et verser les légumes lorsque l'huile est bien bouillante.",
+            "Ajouter les épices délicatement.",
+            "Mélanger le tout et surveillez régulièrement que les légumes n'accroche pas. Sinon rajoutez un peu d'eau",
+            "Faire mijoter à feu doux pendant 50 minutes, tout en remuant de temps en temps.",
+            "Servir chaud avec du riz ou un féculent du même type.",
+            "Faire griller au four sur une grille, thermostat 180 degrés. Quand tout est grillé changer les de cotés afin d'avoir une cuisson homogène.",
+            "Ajouter les oeufs battus en neige.",
+            "Verser la sauce.",
+            "Égoutter les pâtes, remettez les dans la casserole et ajoutez un peu d'huile pour éviter que ça colle."
         ];
 
         $totalIngredients = 19;
@@ -77,6 +76,8 @@ class RecipeFixtures extends Fixture  implements DependentFixtureInterface
                     $recipe->addAllergen($allergen);
                 }
             }
+
+            $this->addReference('recipe_' . $i, $recipe);
 
 			$manager->persist($recipe);
         }

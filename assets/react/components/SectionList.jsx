@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function SectionList({ title, items, className }) {
 	return (
@@ -10,7 +11,10 @@ export default function SectionList({ title, items, className }) {
 			<div className={`${className}-list`}>
 				{items &&
 					items.map((item, index) => (
-						<div className={`${className}-item`} key={index}>
+						<div
+							className={`${className}-item`}
+							key={item.id || index}
+						>
 							<img src={`../${item.image}`} alt={item.name} />
 							<p>{item.name}</p>
 						</div>
@@ -19,3 +23,14 @@ export default function SectionList({ title, items, className }) {
 		</div>
 	);
 }
+
+SectionList.propTypes = {
+	title: PropTypes.string.isRequired,
+	items: PropTypes.arrayOf(
+		PropTypes.shape({
+			image: PropTypes.string.isRequired,
+			name: PropTypes.string.isRequired,
+		})
+	).isRequired,
+	className: PropTypes.string.isRequired,
+};

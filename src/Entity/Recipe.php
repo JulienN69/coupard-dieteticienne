@@ -97,12 +97,20 @@ class Recipe
     #[ORM\OneToMany(targetEntity: Steps::class, mappedBy: 'recipe')]
     private Collection $steps;
 
+    /**
+     * @var Collection<int, Comments>
+     */
+    #[Groups(['read:collection'])]
+    #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'recipe')]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
         $this->diets = new ArrayCollection();
         $this->allergens = new ArrayCollection();
         $this->steps = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -280,4 +288,33 @@ class Recipe
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+public function removeComment(Comments $comment): static
+{
+    if ($this->comments->removeElement($comment) && $comment->getRecipe() === $this) {
+        // set the owning side to null
+        $comment->setRecipe(null);
+    }
+
+    return $this;
+}
+
 }

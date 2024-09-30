@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-export function useLoadData(url) {
+export default function useLoadData(url) {
 	const [items, setItems] = useState([]);
 
 	const load = useCallback(async () => {

@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { useLoadData } from "../hooks/hook";
+import useLoadData from "../hooks/useLoadData";
 
 export default function Recipes() {
 	const { items, load } = useLoadData("/api/recipes");
