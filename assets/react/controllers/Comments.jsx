@@ -2,8 +2,10 @@ import React from "react";
 import StarRatingRange from "../components/StarRatingRange";
 import usePaginatedFetch from "../hooks/usePaginatedFetch";
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import SectionList from "../components/SectionList";
 
 export default function Comments({ id }) {
 	const { data, error, loading, fetchData } = usePaginatedFetch(
@@ -14,16 +16,20 @@ export default function Comments({ id }) {
 		return <div>Erreur : {error}</div>;
 	}
 
+	useEffect(() => {
+		fetchData();
+	}, []);
+
 	return (
 		<section className="comments-section">
 			<div className="comments-section__div">
+				<SectionList
+					title={`Commentaires (${data.length})`}
+					className="recipe-detail__comments"
+				/>
 				<FormComments />
 				<div className="comments">
-					<button onClick={fetchData}>
-						Afficher les commentaires
-					</button>
 					{loading && <p>Chargement...</p>}
-
 					{!loading &&
 						data.length > 0 &&
 						data.map((com) => {

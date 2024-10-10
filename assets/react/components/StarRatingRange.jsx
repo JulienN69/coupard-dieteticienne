@@ -67,9 +67,18 @@ export default function StarRatingRange() {
 			{/* Formulaire de commentaire qui s'ouvre après un clic */}
 			{commentOpen && (
 				<div className="form-comment__form">
-					<input type="text" placeholder="pseudo" />
-					<textarea placeholder="Entrez votre commentaire" />
-					<button>Envoyer votre commentaire</button>
+					<input
+						type="text"
+						placeholder="pseudo"
+						className="form-comment__form-input"
+					/>
+					<textarea
+						placeholder="Entrez votre commentaire"
+						className="form-comment__form-textarea"
+					/>
+					<button className="form-comment__form-button">
+						Envoyer votre commentaire
+					</button>
 				</div>
 			)}
 		</div>

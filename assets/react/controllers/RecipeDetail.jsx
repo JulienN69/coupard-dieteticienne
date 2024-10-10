@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useLoadRecipe } from "../hooks/useLoadRecipe";
 import SectionList from "../components/SectionList";
-import Comments from "./Comments";
 
 export default function RecipeDetail({ id }) {
 	const { items, load } = useLoadRecipe(`/api/recipes/${id}`);
@@ -65,10 +64,10 @@ export default function RecipeDetail({ id }) {
 							</div>
 						))}
 				</div>
-				<SectionList
+				{/* <SectionList
 					title="Commentaires"
 					className="recipe-detail__comments"
-				/>
+				/> */}
 			</div>
 		</div>
 	);

@@ -18,7 +18,7 @@
 		width: 100%
 		align-items: center
 		gap: 1rem
-		font-family: "Baloo Bhaina"
+		font-family: "Baloo Bhaina", sans-serif
 		font-size: 1.5rem
 		text-align: center
 
@@ -43,28 +43,34 @@
 		margin-top: 2rem
 		font-family: "Baloo 2", sans-serif
 
-input[type="text"], textarea
-	width: 100%
-	padding: 0.5rem
-	border: 2px solid $gray
-	border-radius: 10px
-	margin-bottom: 1rem
-	font-size: 1rem
+		&-input
+			width: 100%
+			padding: 0.5rem
+			border: 2px solid $gray
+			border-radius: 10px
+			margin-bottom: 1rem
+			font-size: 1rem
 
-textarea
-	height: 100px
-	resize: none
+		&-textarea
+			width: 100%
+			padding: 0.5rem
+			border: 2px solid $gray
+			border-radius: 10px
+			margin-bottom: 1rem
+			font-size: 1rem
+			height: 100px
+			resize: none
 
-button
-	background-color: $black
-	color: white
-	padding: 0.7rem 2rem
-	border: none
-	border-radius: 10px
-	font-family: "Baloo Bhaina"
-	font-size: 1.2rem
-	cursor: pointer
-	transition: background-color 0.3s
+		&-button
+			background-color: $black
+			color: white
+			padding: 0.7rem 2rem
+			border: none
+			border-radius: 10px
+			font-family: "Baloo Bhaina", sans-serif
+			font-size: 1.2rem
+			cursor: pointer
+			transition: background-color 0.3s
 
-	&:hover
-		background-color: darken($black, 10%)
+			&:hover
+				background-color: lighten($black, 30%)

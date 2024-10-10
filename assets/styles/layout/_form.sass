@@ -1,0 +1,57 @@
+@use "../base/_all" as *
+
+.login-section, .admin-section
+	background-color: black
+	font-family: "Baloo Bhaina", sans-serif
+	&__title
+		text-align: center
+		margin: 0
+		color: $white
+		padding: 2rem
+		font-size: 2.5rem
+
+.form
+	max-width: 600px
+	margin: 0 auto
+	padding: 20px
+	background-color: #000000
+	color: #FFFFFF
+	font-family: "Baloo Bhaina", sans-serif
+	border: $green 3px solid
+	border-radius: 20px
+	@include flex-center
+	align-items: normal
+
+	&__label
+		@include input($green)
+		emargin-bottom: 0.5rem
+		font-weight: bold
+	&__input
+		@include input($black)
+		padding: 0.75rem
+		border-radius: 5px
+		border: 1px solid $green
+		font-size: 1rem
+	&__choices
+		@include input($white)
+		font-size: 1rem
+		input
+			margin: 0.3rem
+	&__btn
+		@include button($black, $green)
+		color: $green
+		margin: 2rem auto
+		padding: 0 2rem
+		&:hover
+			color: $black
+			background-color: $green
+
+.form-group
+	display: flex
+	flex-direction: column
+
+.form-error
+	margin-top: 0.25rem
+	font-size: 0.9rem
+	color: #e74c3c
+	font-style: italic
