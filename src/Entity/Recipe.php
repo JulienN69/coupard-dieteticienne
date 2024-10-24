@@ -18,10 +18,25 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups'=> ['read:collection']],
-    paginationItemsPerPage: 3,
     operations: [
-        new GetCollection(), // Opération par défaut pour obtenir une collection de recettes
-        new Get(),           // Opération par défaut pour obtenir une seule recette
+        new GetCollection(
+            paginationItemsPerPage: 3,
+            uriTemplate: '/get/home/recipes',
+            openapiContext: [
+                'summary' => 'Retrieve a list of recipes for the homepage',
+                'description' => 'This endpoint retrieves a paginated list of recipes specifically designed for the homepage. It returns 3 items per page by default.'
+            ],
+            shortName: 'recipes homePage'
+        ),
+        new GetCollection(
+            paginationItemsPerPage: 6,
+            uriTemplate: '/get/recipes',
+            openapiContext: [
+                'summary' => 'Retrieve a list of recipes',
+                'description' => 'This endpoint retrieves a paginated list of recipes. It returns 6 items per page by default.'
+            ]
+        ),
+        new Get(),
         new Post(),
         new Get(
             uriTemplate: '/get/recipes/count',
@@ -34,6 +49,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 )]
 class Recipe
 {
+    #[Groups(['read:collection'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

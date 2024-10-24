@@ -23,8 +23,14 @@ class PageController extends AbstractController
         ]);
     }
 
+    #[Route('/recipes', name: 'recipes')]
+    public function recipes(RecipeRepository $recipeRepository): Response
+    {
+        return $this->render('recipes/index.html.twig');
+    }
+
     #[Route('/recipe/{id}', name: 'recipe{id}')]
-    public function recipes(RecipeRepository $recipeRepository, int $id): Response
+    public function recipe(RecipeRepository $recipeRepository, int $id): Response
     {
         $recipe = $recipeRepository->find($id);
 
@@ -39,15 +45,15 @@ class PageController extends AbstractController
     {
         $user = new User();
 
-    $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user);
 
-    $form->handleRequest($request);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $user->setPassword(
-            $userPasswordHasher->hashPassword($user, $form->get('password')->getData()
-            )
-        );
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword(
+                $userPasswordHasher->hashPassword($user, $form->get('password')->getData()
+                )
+            );
 
         $entityManager->persist($user);
         $entityManager->flush();

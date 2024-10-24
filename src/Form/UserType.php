@@ -13,7 +13,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserType extends AbstractType
@@ -63,36 +62,20 @@ public function buildForm(FormBuilderInterface $builder, array $options): void
             'label_attr' => ['class' => 'form__label'],
             'label'=>'Nom'
         ])
-        // ->add('allergy', ChoiceType::class, [
-        //         'choices' => $allergenChoices, // Utilisation des allergènes récupérés
-        //         'expanded' => true,
-        //         'multiple' => true, // Permet de sélectionner plusieurs allergènes
-        //         'attr' => ['class' => 'form__choices'],
-        //         'label_attr' => ['class' => 'form__label'],
-        //         'label'=>'allergies'
-        //     ])
         ->add('allergy', EntityType::class, [
             'class' => Allergen::class,
             'choice_label' => 'name',
-            'expanded' => true,   // Affiche des cases à cocher (checkbox)
-            'multiple' => true,   // Permet de sélectionner plusieurs valeurs
+            'expanded' => true,
+            'multiple' => true,
             'attr' => ['class' => 'form__choices'],
             'label_attr' => ['class' => 'form__label'],
         ])
 
-        // ->add('diets', ChoiceType::class, [
-        //         'choices' => $dietChoices, // Utilisation des allergènes récupérés
-        //         'expanded' => true,
-        //         'multiple' => true, // Permet de sélectionner plusieurs allergènes
-        //         'attr' => ['class' => 'form__choices'],
-        //         'label_attr' => ['class' => 'form__label'],
-        //         'label'=>'régime(s) alimentaire'
-        //     ]);
                 ->add('diets', EntityType::class, [
             'class' => Diet::class,
             'choice_label' => 'name',
-            'expanded' => true,   // Affiche des cases à cocher (checkbox)
-            'multiple' => true,   // Permet de sélectionner plusieurs valeurs
+            'expanded' => true,
+            'multiple' => true,
             'attr' => ['class' => 'form__choices'],
             'label_attr' => ['class' => 'form__label'],
                 ]);

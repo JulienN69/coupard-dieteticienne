@@ -1,11 +1,15 @@
-import React from "react";
-import StarRatingRange from "../components/StarRatingRange";
+import React, { useEffect } from "react";
 import usePaginatedFetch from "../hooks/usePaginatedFetch";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import SectionList from "../components/SectionList";
+import FormComment from "../components/FormComment";
+
+const dateFormat = {
+	dateStyle: "medium",
+	timeStyle: "short",
+};
 
 export default function Comments({ id }) {
 	const { data, error, loading, fetchData } = usePaginatedFetch(
@@ -27,7 +31,7 @@ export default function Comments({ id }) {
 					title={`Commentaires (${data.length})`}
 					className="recipe-detail__comments"
 				/>
-				<FormComments />
+				<FormComment recipe={id} />
 				<div className="comments">
 					{loading && <p>Chargement...</p>}
 					{!loading &&
@@ -38,7 +42,16 @@ export default function Comments({ id }) {
 									<h4 className="comment__pseudo">
 										{com.pseudo}
 									</h4>
-									<div className="form-comment__title-stars">
+									<div className="comment__date">
+										<span>commenté le</span>
+										<span>
+											{new Date(com.date).toLocaleString(
+												undefined,
+												dateFormat
+											)}
+										</span>
+									</div>
+									<div className="comment__stars">
 										{[...Array(5)].map((_, index) => (
 											<FontAwesomeIcon
 												key={index}
@@ -61,14 +74,6 @@ export default function Comments({ id }) {
 				</div>
 			</div>
 		</section>
-	);
-}
-
-function FormComments() {
-	return (
-		<form action="submit" method="post" className="form-comment">
-			<StarRatingRange />
-		</form>
 	);
 }
 

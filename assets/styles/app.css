@@ -1,100 +1,99 @@
 @import url("https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&display=swap");
 @font-face {
-	font-family: "Baloo Bhaina";
-	src: url("../../fonts/BalooBhaina-Regular.ttf") format("truetype");
-	font-weight: normal;
-	font-style: normal;
+  font-family: "Baloo Bhaina";
+  src: url("../../fonts/BalooBhaina-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 /* Reset CSS (inspired by Normalize.css) */
 *,
 *::before,
 *::after {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-	line-height: 1.15;
-	-webkit-text-size-adjust: 100%;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-	margin: 0;
-	font-family: "Reenie Beanie", cursive;
-	font-weight: 400;
-	font-style: normal;
-	background-color: #fff;
-	color: #333;
+  margin: 0;
+  font-family: "Reenie Beanie", cursive;
+  font-weight: 400;
+  font-style: normal;
+  background-color: #fff;
+  color: #333;
 }
 
 main {
-	display: block;
+  display: block;
 }
 
 h1 {
-	font-size: 2em;
-	margin: 0.67em 0;
+  font-size: 2em;
+  margin: 0.67em 0;
 }
 
 hr {
-	box-sizing: content-box;
-	height: 0;
-	overflow: visible;
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
 }
 
 pre {
-	font-family: monospace;
-	font-size: 1em;
+  font-family: monospace;
+  font-size: 1em;
 }
 
 a {
-	background-color: transparent;
-	text-decoration: none;
-	color: inherit;
+  background-color: transparent;
+  text-decoration: none;
+  color: inherit;
 }
 
 abbr[title] {
-	border-bottom: none;
-	-webkit-text-decoration: underline dotted;
-	text-decoration: underline dotted;
+  border-bottom: none;
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
 }
 
 b,
 strong {
-	font-weight: bolder;
+  font-weight: bolder;
 }
 
 code,
 kbd,
 samp {
-	font-family: monospace;
-	font-size: 1em;
+  font-family: monospace;
+  font-size: 1em;
 }
 
 small {
-	font-size: 80%;
+  font-size: 80%;
 }
 
 sub,
 sup {
-	font-size: 75%;
-	line-height: 0;
-	position: relative;
-	vertical-align: baseline;
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
 }
 
 sub {
-	bottom: -0.25em;
+  bottom: -0.25em;
 }
 
 sup {
-	top: -0.5em;
+  top: -0.5em;
 }
 
 img {
-	border-style: none;
+  border-style: none;
 }
 
 button,
@@ -102,384 +101,830 @@ input,
 optgroup,
 select,
 textarea {
-	font-family: inherit;
-	font-size: 100%;
-	line-height: 1.15;
-	margin: 0;
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
 }
 
 button,
 input {
-	overflow: visible;
+  overflow: visible;
 }
 
 button,
 select {
-	text-transform: none;
+  text-transform: none;
 }
 
 button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
-	-webkit-appearance: button;
+[type=button],
+[type=reset],
+[type=submit] {
+  -webkit-appearance: button;
 }
 
 button::-moz-focus-inner,
-[type="button"]::-moz-focus-inner,
-[type="reset"]::-moz-focus-inner,
-[type="submit"]::-moz-focus-inner {
-	border-style: none;
-	padding: 0;
+[type=button]::-moz-focus-inner,
+[type=reset]::-moz-focus-inner,
+[type=submit]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
 }
 
 button:-moz-focusring,
-[type="button"]:-moz-focusring,
-[type="reset"]:-moz-focusring,
-[type="submit"]:-moz-focusring {
-	outline: 1px dotted ButtonText;
+[type=button]:-moz-focusring,
+[type=reset]:-moz-focusring,
+[type=submit]:-moz-focusring {
+  outline: 1px dotted ButtonText;
 }
 
 fieldset {
-	padding: 0.35em 0.75em 0.625em;
+  padding: 0.35em 0.75em 0.625em;
 }
 
 legend {
-	box-sizing: border-box;
-	color: inherit;
-	display: table;
-	max-width: 100%;
-	padding: 0;
-	white-space: normal;
+  box-sizing: border-box;
+  color: inherit;
+  display: table;
+  max-width: 100%;
+  padding: 0;
+  white-space: normal;
 }
 
 progress {
-	vertical-align: baseline;
+  vertical-align: baseline;
 }
 
 textarea {
-	overflow: auto;
+  overflow: auto;
 }
 
-[type="checkbox"],
-[type="radio"] {
-	box-sizing: border-box;
-	padding: 0;
+[type=checkbox],
+[type=radio] {
+  box-sizing: border-box;
+  padding: 0;
 }
 
-[type="number"]::-webkit-inner-spin-button,
-[type="number"]::-webkit-outer-spin-button {
-	height: auto;
+[type=number]::-webkit-inner-spin-button,
+[type=number]::-webkit-outer-spin-button {
+  height: auto;
 }
 
-[type="search"] {
-	-webkit-appearance: textfield;
-	outline-offset: -2px;
+[type=search] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
 }
 
-[type="search"]::-webkit-search-decoration {
-	-webkit-appearance: none;
+[type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
 }
 
 ::-webkit-file-upload-button {
-	-webkit-appearance: button;
-	font: inherit;
+  -webkit-appearance: button;
+  font: inherit;
 }
 
 details {
-	display: block;
+  display: block;
 }
 
 summary {
-	display: list-item;
+  display: list-item;
 }
 
 template {
-	display: none;
+  display: none;
 }
 
 [hidden] {
-	display: none;
+  display: none;
 }
 
 .sidebar {
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 100%;
-	z-index: 199;
-	display: flex;
-	width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 199;
+  display: flex;
+  width: 100%;
 }
 @media screen and (min-width: 800px) {
-	.sidebar {
-		display: none;
-	}
+  .sidebar {
+    display: none;
+  }
 }
 .sidebar__btn {
-	flex-grow: 1;
+  flex-grow: 1;
 }
 .sidebar__btn button {
-	border: none;
-	font-size: 1.5rem;
-	cursor: pointer;
-	padding: 1rem;
-	margin: 1rem;
-	border-radius: 50%;
-	width: 2rem;
-	height: 2rem;
-	display: flex;
-	justify-content: center;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
 }
 .sidebar__btn button div {
-	align-self: center;
+  align-self: center;
 }
 .sidebar__nav {
-	position: fixed;
-	top: 0;
-	display: flex;
-	flex-direction: column;
-	background-color: #ffffff;
-	padding: 1rem;
-	height: 100%;
-	z-index: 200;
-	width: 300px;
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #FFFFFF;
+  padding: 1rem;
+  height: 100%;
+  z-index: 200;
+  width: 300px;
 }
 .sidebar__nav a {
-	padding: 1rem;
-	text-transform: uppercase;
-	color: #000000;
-	font-size: 2rem;
-	font-weight: normal;
-	border-bottom: #bdb9b3 solid 1px;
+  padding: 1rem;
+  text-transform: uppercase;
+  color: #000000;
+  font-size: 2rem;
+  font-weight: normal;
+  border-bottom: #BDB9B3 solid 1px;
 }
 .sidebar__nav a:hover {
-	color: #dc9a7d;
+  color: #DC9A7D;
 }
 .sidebar__nav span {
-	padding: 1rem;
-	padding-bottom: 2rem;
-	text-transform: uppercase;
-	color: #000000;
-	font-size: 2rem;
-	font-weight: normal;
-	border-bottom: #bdb9b3 solid 1px;
+  padding: 1rem;
+  padding-bottom: 2rem;
+  text-transform: uppercase;
+  color: #000000;
+  font-size: 2rem;
+  font-weight: normal;
+  border-bottom: #BDB9B3 solid 1px;
 }
 .sidebar__hamburger {
-	opacity: 0;
-	color: #ffffff;
+  opacity: 0;
+  color: #FFFFFF;
 }
 
 .inactive {
-	transform: translateX(-300px);
-	transition: transform 0.8s ease;
+  transform: translateX(-300px);
+  transition: transform 0.8s ease;
 }
 
 .active {
-	transform: translateX(0);
-	transition: transform 0.8s ease;
+  transform: translateX(0);
+  transition: transform 0.8s ease;
 }
 
 .dark {
-	background-color: rgba(255, 255, 255, 0);
-	transition: background-color 0.8s ease;
+  background-color: rgba(255, 255, 255, 0);
+  transition: background-color 0.8s ease;
 }
 
 .light {
-	background-color: rgba(0, 0, 0, 0.5);
-	transition: background-color 0.8s ease;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: background-color 0.8s ease;
 }
 
 .closeBtn {
-	position: relative;
-	transform: translateX(0);
-	transition: transform 0.8s ease;
-	background-color: #292525;
+  position: relative;
+  transform: translateX(0);
+  transition: transform 0.8s ease;
+  background-color: #292525;
 }
 .closeBtn div {
-	color: #ffffff;
-	font-size: 2rem;
+  color: #FFFFFF;
+  font-size: 2rem;
 }
 
 .hamburgerBtn {
-	position: relative;
-	transform: translateX(300px);
-	transition: transform 0.8s ease;
-	background-color: #ffffff;
+  position: relative;
+  transform: translateX(300px);
+  transition: transform 0.8s ease;
+  background-color: #FFFFFF;
 }
 .hamburgerBtn div {
-	color: #000000;
-	font-size: 2rem;
-	display: flex;
+  color: #000000;
+  font-size: 2rem;
+  display: flex;
+}
+
+.headerDark {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: 250px;
+  background-color: #000000;
 }
 
 .header {
-	display: flex;
-	position: relative;
-	flex-direction: column;
-	height: 350px;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: 350px;
 }
 .header::before {
-	content: " ";
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	opacity: 0.4;
-	background-image: url("../../images/vegetables.jpg");
-	background-repeat: no-repeat;
-	background-position: 50% 0;
-	background-size: cover;
-	z-index: -1;
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  background-image: url("../../images/vegetables.jpg");
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  background-size: cover;
+  z-index: -1;
 }
 .header__navbar {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	background-color: #292525;
-	color: #ffffff;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	gap: 50px;
-	font-size: clamp(1.5rem, 3.5vw, 3rem);
-	padding: 1rem;
-	height: 80px;
-	text-transform: uppercase;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #292525;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  font-size: clamp(1.5rem, 2vw, 3rem);
+  padding: 1rem;
+  height: 80px;
+  text-transform: uppercase;
 }
 .header__navbar a {
-	display: none;
+  display: none;
 }
 @media screen and (min-width: 800px) {
-	.header__navbar a {
-		display: block;
-	}
+  .header__navbar a {
+    display: block;
+  }
 }
 .header__navbar a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 .header__title {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 2rem;
-	height: 100%;
-	justify-content: center;
-	padding-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  height: 100%;
+  justify-content: center;
+  padding-top: 4rem;
 }
 .header__title h1 {
-	text-transform: uppercase;
-	color: #000000;
-	font-size: 3rem;
-	font-weight: normal;
-	margin: 0;
+  text-transform: uppercase;
+  color: #000000;
+  font-size: 3rem;
+  font-weight: normal;
+  margin: 0;
 }
 @media screen and (min-width: 800px) {
-	.header__title h1 {
-		font-size: 6rem;
-	}
+  .header__title h1 {
+    font-size: 6rem;
+  }
 }
 .header__title h2 {
-	text-align: center;
-	font-family: "Baloo Bhaina";
-	font-size: 2rem;
-	color: #609a7d;
+  text-align: center;
+  font-family: "Baloo Bhaina", sans-serif;
+  font-size: 2rem;
+  color: #609A7D;
 }
 @media screen and (min-width: 800px) {
-	.header__title h2 {
-		font-size: 3rem;
-	}
+  .header__title h2 {
+    font-size: 3rem;
+  }
+}
+
+.white {
+  color: white !important;
+  font-size: 4rem !important;
+}
+
+.footer {
+  background-image: url("../../images/mushrooms.jpg");
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: darken;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #FFFFFF;
+}
+.footer__title {
+  margin: 1rem;
+  font-size: 4rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+.footer__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "baloo 2", sans-serif;
+  font-size: 1.4rem;
+  text-align: center;
+}
+.footer__links {
+  font-family: "baloo 2", sans-serif;
+  margin: 1rem;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  text-align: center;
+}
+.footer__links a {
+  margin: 2rem;
+}
+.footer__links a:hover {
+  text-decoration: underline;
 }
 
 .sectionRecipes {
-	padding: 2rem;
-	background-color: #000000;
+  padding: 2rem;
+  background-color: #000000;
 }
 .sectionRecipes h2 {
-	font-family: "Baloo Bhaina";
-	color: #ffffff;
-	text-align: center;
-	font-size: 3rem;
+  font-family: "Baloo Bhaina", sans-serif;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 3rem;
+  text-transform: uppercase;
 }
 .sectionRecipes__container {
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.sectionRecipes__container-react {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 
 .recipes {
-	display: grid;
-	grid-template-columns: repeat(1, 1fr);
-	gap: 1.5rem;
-	padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+  padding: 1rem;
 }
 @media screen and (min-width: 780px) {
-	.recipes {
-		grid-template-columns: repeat(3, 1fr);
-	}
+  .recipes {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .recipe-card {
-	background-color: #000000;
-	border-radius: 8px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	transition: transform 0.3s ease;
+  background-color: #000000;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
 }
 .recipe-card:hover {
-	transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 .recipe-card__image {
-	width: 100%;
-	height: 300px;
-	-o-object-fit: cover;
-	object-fit: cover;
+  width: 100%;
+  height: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .recipe-card__title {
-	font-size: 1.2rem;
-	font-family: "Baloo Bhaina";
-	font-weight: bold;
-	padding: 1rem;
-	color: #ffffff;
+  text-align: center;
+  font-size: 1.6rem;
+  font-family: "Baloo Bhaina", sans-serif;
+  font-weight: bold;
+  padding: 1rem 1rem 0;
+  color: #FFFFFF;
+}
+.recipe-card__diets {
+  color: #609A7D;
+  font-size: 1.8rem;
+  text-align: center;
+}
+.recipe-card__line {
+  border-bottom: solid 1px #FFFFFF;
+  width: 30%;
+  text-align: center;
+  margin: 0.8rem;
 }
 .recipe-card__description {
-	padding: 0 1rem 1rem;
-	color: #dc9a7d;
-	line-height: 1.5;
-	display: -webkit-box;
-	-webkit-line-clamp: 3;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
-	text-overflow: ellipsis;
+  padding: 0 1rem 1rem;
+  color: #DC9A7D;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.4rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 10px 15px;
+  background-color: #000000;
+  border: 1px solid #DC9A7D;
+  cursor: pointer;
+  color: #DC9A7D;
+  font-size: 0.8rem;
+  font-family: "Baloo Bhaina", sans-serif;
+}
+
+.pagination button.active {
+  background-color: #DC9A7D;
+  color: #000000;
+}
+
+.pagination button:hover {
+  background-color: #DC9A7D;
+  color: #000000;
+}
+
+.pagination .prev,
+.pagination .next {
+  font-size: 0.8rem;
+  font-family: "Baloo Bhaina", sans-serif;
 }
 
 .btnDark {
-	display: inline-flex;
-	background-color: #000000;
-	border: 2px solid #609a7d;
-	border-radius: 30px;
-	padding: 0.75rem 1.5rem;
-	font-family: "Baloo Bhaina";
-	font-size: 1.5rem;
-	text-align: center;
-	cursor: pointer;
-	transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: #000000;
+  border: 2px solid #609A7D;
+  border-radius: 30px;
+  padding: 0.75rem 1.5rem;
+  font-family: "Baloo Bhaina", sans-serif;
+  font-size: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 30vh;
+  margin: 0 auto;
 }
 .btnDark a {
-	color: #609a7d;
-	display: block;
-	padding-top: 0.2rem;
+  color: #609A7D;
+  display: block;
+  padding-top: 0.2rem;
 }
 .btnDark:hover {
-	background-color: #609a7d;
+  background-color: #609A7D;
 }
 .btnDark:hover a {
-	color: #000000;
-} /*# sourceMappingURL=app.css.map */
+  color: #000000;
+}
+
+.recipe-detail-container {
+  background-color: #000000;
+}
+
+.recipe-detail {
+  background-color: black;
+  max-width: 900px;
+  padding: 20px;
+  font-family: "Baloo Bhaina", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+.recipe-detail__title-container {
+  width: 100%;
+}
+.recipe-detail__title-container h3 {
+  text-align: center;
+  color: white;
+  font-size: 3rem;
+  padding: 0.5rem;
+}
+.recipe-detail__title-container p {
+  color: #609A7D;
+  font-size: 3rem;
+  text-align: center;
+  font-family: "Reenie Beanie", cursive;
+  font-weight: 400;
+  font-style: normal;
+  padding: 1rem;
+}
+.recipe-detail__img-container {
+  margin-bottom: 20px;
+}
+.recipe-detail__img-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+.recipe-detail__img-container p {
+  margin-top: 10px;
+  color: #FFFFFF;
+  font-size: 1em;
+  font-family: "Baloo 2", sans-serif;
+}
+.recipe-detail__time-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: #609A7D;
+  margin: 1rem;
+}
+.recipe-detail__total-time {
+  font-size: 1.1em;
+  color: #000000;
+  border-bottom: 2px solid #000000;
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+}
+.recipe-detail__times {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 1rem;
+}
+.recipe-detail__times p {
+  font-size: 1em;
+  color: #000000;
+}
+.recipe-detail__ingredients, .recipe-detail__allergens, .recipe-detail__comments {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.recipe-detail__ingredients-title, .recipe-detail__allergens-title, .recipe-detail__comments-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.recipe-detail__ingredients-title h2, .recipe-detail__allergens-title h2, .recipe-detail__comments-title h2 {
+  padding: 0.5rem 1rem 0.5rem 0;
+  color: #FFFFFF;
+  font-size: 2rem;
+}
+.recipe-detail__ingredients-title span, .recipe-detail__allergens-title span, .recipe-detail__comments-title span {
+  border-bottom: 2px solid white;
+  padding-left: 1rem;
+  flex-grow: 1;
+}
+.recipe-detail__ingredients-list, .recipe-detail__allergens-list, .recipe-detail__comments-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: space-between;
+  color: #FFFFFF;
+  padding: 2rem 0;
+}
+.recipe-detail__ingredients-item, .recipe-detail__allergens-item, .recipe-detail__comments-item {
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+}
+.recipe-detail__ingredients-item img, .recipe-detail__allergens-item img, .recipe-detail__comments-item img {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+}
+.recipe-detail__steps {
+  margin: 20px auto;
+  width: 100%;
+}
+.recipe-detail__steps-detail {
+  color: #FFFFFF;
+}
+.recipe-detail__steps-detail h2 {
+  font-size: 1.5em;
+  padding: 0.5rem;
+  padding-left: 0;
+}
+.recipe-detail__steps-detail p {
+  margin: 5px 0;
+}
+
+.recipe-detail__comments {
+  height: 80px;
+  padding-top: 0.5rem;
+}
+
+.form-comment {
+  background-color: #000000;
+  padding: 0 1rem;
+}
+.form-comment__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #609A7D;
+  padding: 1.5rem;
+  margin: 0 auto;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.form-comment__title {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  gap: 1rem;
+  font-family: "Baloo Bhaina", sans-serif;
+  font-size: 1.5rem;
+  text-align: center;
+}
+.form-comment-span {
+  color: #292525;
+}
+.form-comment-stars {
+  display: flex;
+  gap: 0.5rem;
+}
+.form-comment-stars svg {
+  transition: color 0.3s;
+}
+.form-comment-stars svg:hover {
+  color: #ffd700;
+}
+.form-comment__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 2rem;
+  font-family: "Baloo 2", sans-serif;
+}
+.form-comment__form-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #292525;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+.form-comment__form-textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #292525;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  height: 100px;
+  resize: none;
+}
+.form-comment__form-button {
+  background-color: #000000;
+  color: white;
+  padding: 0.7rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-family: "Baloo Bhaina", sans-serif;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.form-comment__form-button:hover {
+  background-color: #4d4d4d;
+}
+
+.has-error {
+  color: red;
+}
+
+.comments-section {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+}
+.comments-section__div {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+.comments {
+  margin: 0 auto;
+  width: 100%;
+  color: white;
+  font-size: 1.5rem;
+  font-family: Baloo Bhaina;
+  padding: 2rem 1rem;
+}
+
+.comment {
+  padding: 1rem 0;
+  font-family: "Baloo 2", sans-serif;
+}
+.comment__pseudo {
+  padding: 0.5rem 0;
+}
+.comment__stars {
+  display: flex;
+  gap: 0.5rem;
+}
+.comment__text {
+  padding: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.login-section, .admin-section {
+  background-color: black;
+  font-family: "Baloo Bhaina", sans-serif;
+}
+.login-section__title, .admin-section__title {
+  text-align: center;
+  margin: 0;
+  color: #FFFFFF;
+  padding: 2rem;
+  font-size: 2.5rem;
+}
+
+.form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #000000;
+  color: #FFFFFF;
+  font-family: "Baloo Bhaina", sans-serif;
+  border: #609A7D 3px solid;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-items: normal;
+}
+.form__label {
+  color: #609A7D;
+  font-family: "Baloo 2", sans-serif;
+  font-size: 1.5rem;
+  padding: 1rem;
+  emargin-bottom: 0.5rem;
+  font-weight: bold;
+}
+.form__input {
+  color: #000000;
+  font-family: "Baloo 2", sans-serif;
+  font-size: 1.5rem;
+  padding: 1rem;
+  padding: 0.75rem;
+  border-radius: 5px;
+  border: 1px solid #609A7D;
+  font-size: 1rem;
+}
+.form__choices {
+  color: #FFFFFF;
+  font-family: "Baloo 2", sans-serif;
+  font-size: 1.5rem;
+  padding: 1rem;
+  font-size: 1rem;
+}
+.form__choices input {
+  margin: 0.3rem;
+}
+.form__btn {
+  background-color: #000000;
+  border: 2px solid #609A7D;
+  border-radius: 30px;
+  font-family: "Baloo Bhaina", sans-serif;
+  font-size: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  color: #609A7D;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+.form__btn:hover {
+  color: #000000;
+  background-color: #609A7D;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-error {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  color: #e74c3c;
+  font-style: italic;
+}/*# sourceMappingURL=app.css.map */

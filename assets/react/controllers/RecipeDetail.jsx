@@ -64,10 +64,6 @@ export default function RecipeDetail({ id }) {
 							</div>
 						))}
 				</div>
-				{/* <SectionList
-					title="Commentaires"
-					className="recipe-detail__comments"
-				/> */}
 			</div>
 		</div>
 	);

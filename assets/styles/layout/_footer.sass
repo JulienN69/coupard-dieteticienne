@@ -1,0 +1,31 @@
+@use "../base/_all" as *
+
+.footer
+	background-image: url('../../images/mushrooms.jpg')
+	background-size: cover
+	background-position: center
+	background-color: rgba(0, 0, 0, 0.5)
+	background-blend-mode: darken
+	@include flex-center()
+	color: $white
+
+	&__title
+		margin: 1rem
+		font-size: 4rem
+		text-transform: uppercase
+		text-align: center
+	&__text
+		@include flex-center()
+		font-family: 'baloo 2', sans-serif
+		font-size: 1.4rem
+		text-align: center
+	&__links
+		font-family: 'baloo 2', sans-serif
+		margin: 1rem
+		margin-bottom: 2rem
+		font-size: 1rem
+		text-align: center
+		a
+			margin: 2rem
+			&:hover
+				text-decoration: underline

@@ -1,17 +1,18 @@
-{% extends 'base.html.twig' %} 
+{% extends 'base.html.twig' %}
 
 {% block body %}
 
 <section class="sectionRecipes">
 	<h2>Dernières recettes</h2>
-		<div class="sectionRecipes__container">
+	<div class="sectionRecipes__container">
 
-			<div {{ react_component('Recipes')}}></div>
+		<div {{ react_component('Recipes', {'url': '/api/get/home/recipes' , 'disablePagination' : true }) }}></div>
 
-			<div class="btnDark">
-				<a href="#">En voir +</a>
-			</div>
+
+		<div class="btnDark">
+			<a href="#">En voir +</a>
 		</div>
+	</div>
 </section>
 
 

@@ -8,11 +8,16 @@
 		color: $white
 		text-align: center
 		font-size: 3rem
+		text-transform: uppercase
 
 	&__container
 		max-width: 1200px
 		margin: 0 auto
 		padding: 1rem
+		&-react
+			display: flex
+			flex-direction: column
+			align-items: start
 
 .recipes
 	display: grid
@@ -40,18 +45,59 @@
 		object-fit: cover
 
 	&__title
-		font-size: 1.2rem
+		text-align: center
+		font-size: 1.6rem
 		font-family: 'Baloo Bhaina', sans-serif
 		font-weight: bold
-		padding: 1rem
+		padding: 1rem 1rem 0
 		color: $white
+
+	&__diets
+		color: $green
+		font-size: 1.8rem
+		text-align: center
+
+	&__line
+		border-bottom: solid 1px $white
+		width: 30%
+		text-align: center
+		margin: 0.8rem
 
 	&__description
 		padding: 0 1rem 1rem
 		color: $brown
-		line-height: 1.5
 		display: -webkit-box
 		-webkit-line-clamp: 3
 		-webkit-box-orient: vertical
 		overflow: hidden
 		text-overflow: ellipsis
+		font-size: 1.4rem
+
+.pagination
+	display: flex
+	justify-content: center
+	align-items: center
+	margin-top: 20px
+
+.pagination button
+	margin: 0 5px
+	padding: 10px 15px
+	background-color: $black
+	border: 1px solid $brown
+	cursor: pointer
+	color: $brown
+	font-size: 0.8rem
+	font-family: 'Baloo Bhaina', sans-serif
+
+.pagination button.active
+	background-color: $brown
+	color: $black
+
+.pagination button:hover
+	background-color: $brown
+	color: $black
+
+.pagination .prev,
+.pagination .next
+	font-size: 0.8rem
+	font-family: 'Baloo Bhaina', sans-serif

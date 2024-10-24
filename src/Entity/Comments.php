@@ -11,12 +11,19 @@ use App\Controller\CommentsController;
 use App\Repository\CommentsRepository;
 use ApiPlatform\Metadata\GetCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     operations: [
         new GetCollection(),
         new Get(),
-        new Post(),
+        new Post(
+            uriTemplate: '/recipe/commentss',
+            read: false,
+            description: 'publish',
+            shortName: 'create comment',
+            validationContext: ['groups' => ['Default', 'comment:create']]
+        ),
         new Get(
             uriTemplate: '/get/recipes/{id}/comments',
             controller: CommentsController::class,
@@ -33,21 +40,27 @@ class Comments
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'comment:create'])]
     #[ORM\Column]
     private ?int $note = null;
 
-    #[Groups(['read:collection'])]
+    #[Assert\Length(
+        max: 20,
+        maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    #[Groups(['read:collection', 'comment:create'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $comment = null;
 
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'comment:create'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $pseudo = null;
 
+    #[Groups(['comment:create'])]
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?Recipe $recipe = null;
 
+    #[Groups(['read:collection', 'comment:create'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
