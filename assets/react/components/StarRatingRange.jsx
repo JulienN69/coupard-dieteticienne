@@ -16,7 +16,6 @@ export default function StarRatingRange() {
 	const onMouseEnter = (index) => {
 		setMouseEnter(true);
 		setStar(index + 1);
-		console.log("Survol de l'étoile " + (index + 1));
 	};
 
 	// Quitter le survol

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import usePaginatedFetch from "../hooks/usePaginatedFetch";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,9 +12,17 @@ const dateFormat = {
 };
 
 export default function Comments({ id }) {
-	const { data, error, loading, fetchData } = usePaginatedFetch(
-		`/api/get/recipes/${id}/comments`
-	);
+	const {
+		data: comments,
+		error,
+		loading,
+		fetchData,
+		setData: setComments,
+	} = usePaginatedFetch(`/api/get/recipes/${id}/comments`);
+
+	const addComment = useCallback((comment) => {
+		setComments((comments) => [comment, ...comments]);
+	}, []);
 
 	if (error) {
 		return <div>Erreur : {error}</div>;
@@ -28,15 +36,15 @@ export default function Comments({ id }) {
 		<section className="comments-section">
 			<div className="comments-section__div">
 				<SectionList
-					title={`Commentaires (${data.length})`}
+					title={`Commentaires (${comments.length})`}
 					className="recipe-detail__comments"
 				/>
-				<FormComment recipe={id} />
+				<FormComment recipe={id} onComment={addComment} error={error} />
 				<div className="comments">
 					{loading && <p>Chargement...</p>}
 					{!loading &&
-						data.length > 0 &&
-						data.map((com) => {
+						comments.length > 0 &&
+						comments.map((com) => {
 							return (
 								<div key={com.id} className="comment">
 									<h4 className="comment__pseudo">

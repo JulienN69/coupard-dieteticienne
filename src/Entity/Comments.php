@@ -45,13 +45,21 @@ class Comments
     private ?int $note = null;
 
     #[Assert\Length(
-        max: 20,
-        maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.'
+        max: 200,
+        maxMessage: 'Le pseudo ne peut pas dépasser {{ limit }} caractères.',
+        min: 5,
+        minMessage: 'Le pseudo doit faire au moins {{ limit }} caractères.'
     )]
     #[Groups(['read:collection', 'comment:create'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $comment = null;
 
+    #[Assert\Length(
+        max: 20,
+        maxMessage: 'Le message ne peut pas dépasser {{ limit }} caractères.',
+        min: 2,
+        minMessage: 'Le message doit faire au moins {{ limit }} caractères.'
+    )]
     #[Groups(['read:collection', 'comment:create'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $pseudo = null;

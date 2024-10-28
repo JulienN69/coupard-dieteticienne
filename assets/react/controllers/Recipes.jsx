@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import useLoadData from "../hooks/useFetch";
+import { ClipLoader } from "react-spinners";
 
 export default function Recipes({ url, disablePagination }) {
-	const { items, load, next, prev, currentPage, numberPage } =
+	const { items, load, next, prev, currentPage, numberPage, loading } =
 		useLoadData(url);
-
-	console.log(url);
 
 	useEffect(() => {
 		load();
@@ -27,6 +26,14 @@ export default function Recipes({ url, disablePagination }) {
 		}
 		return pages;
 	};
+
+	if (loading) {
+		return (
+			<div className="clipLoader">
+				<ClipLoader color="#609A7D" loading={true} size={50} />
+			</div>
+		);
+	}
 
 	return (
 		<>

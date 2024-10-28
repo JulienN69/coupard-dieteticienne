@@ -17,7 +17,6 @@ export default function usePaginatedFetch(url) {
 				const result = await response.json();
 				setData(result);
 				setLoading(false);
-				console.log(result);
 			} else {
 				setError("Failed to fetch data");
 			}
@@ -26,5 +25,5 @@ export default function usePaginatedFetch(url) {
 		}
 	}
 
-	return { data, error, loading, fetchData };
+	return { data, error, loading, fetchData, setData };
 }

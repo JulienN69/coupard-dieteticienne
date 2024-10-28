@@ -31,7 +31,6 @@ export function useFetch(url, method = "POST", callback) {
 			setLoading(true);
 			try {
 				const response = await jsonLdFetch(url, method, data);
-				console.log(response);
 				if (callback) {
 					callback(response);
 				}
@@ -47,7 +46,15 @@ export function useFetch(url, method = "POST", callback) {
 		},
 		[url, method, callback]
 	);
-	return { loading, errors, load };
+	const clearError = useCallback(
+		(name) => {
+			if (errors[name]) {
+				setErrors((errors) => ({ ...errors, [name]: null }));
+			}
+		},
+		[errors]
+	);
+	return { loading, errors, load, clearError };
 }
 
 export default function useLoadData(url) {
@@ -56,9 +63,11 @@ export default function useLoadData(url) {
 	const [prev, setPrev] = useState(null);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [numberPage, setNumberPage] = useState(1);
+	const [loading, setLoading] = useState(false);
 
 	const load = useCallback(
 		async (pageUrl = url) => {
+			setLoading(true);
 			const fullUrl = new URL(pageUrl, window.location.origin);
 			try {
 				const response = await jsonLdFetch(pageUrl);
@@ -73,9 +82,11 @@ export default function useLoadData(url) {
 					);
 					const lastPageUrl = response["hydra:view"]["hydra:last"];
 					setNumberPage(lastPageUrl.match(/\d+/)[0]);
+					setLoading(false);
 				}
 			} catch (error) {
 				console.error(error);
+				setLoading(false);
 			}
 		},
 		[url]
@@ -88,5 +99,6 @@ export default function useLoadData(url) {
 		prev,
 		currentPage,
 		numberPage,
+		loading,
 	};
 }

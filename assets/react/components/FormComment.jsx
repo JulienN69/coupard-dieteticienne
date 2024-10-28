@@ -1,10 +1,11 @@
 import React, { useCallback, useRef, useState } from "react";
 import StarRating from "./StarRating";
 import { useFetch } from "../hooks/useFetch";
+import PropTypes from "prop-types";
 
 const className = (...arr) => arr.filter(Boolean).join(" ");
 
-export default function FormComment({ error, recipe }) {
+export default function FormComment({ error, recipe, onComment }) {
 	const [commentOpen, setCommentOpen] = useState(false);
 	const [rating, setRating] = useState(0);
 
@@ -14,9 +15,23 @@ export default function FormComment({ error, recipe }) {
 		setCommentOpen(true);
 	};
 
+	const onSuccess = useCallback(
+		(comment) => {
+			onComment(comment);
+			pseudoRef.current.value = "";
+			commentRef.current.value = "";
+			clearError(errors);
+		},
+		[onComment]
+	);
+
 	const pseudoRef = useRef(null);
 	const commentRef = useRef(null);
-	const { load, errors, loading } = useFetch("/api/recipe/commentss", "POST");
+	const { load, errors, loading, clearError } = useFetch(
+		"/api/recipe/commentss",
+		"POST",
+		onSuccess
+	);
 
 	const onSubmit = useCallback(
 		(e) => {
@@ -42,32 +57,33 @@ export default function FormComment({ error, recipe }) {
 			</div>
 
 			{commentOpen && (
-				<div
-					className={className(
-						"form-comment__form",
-						error && "has-error"
-					)}
-				>
+				<div className="form-comment__form">
 					<input
 						type="text"
 						placeholder="pseudo"
 						className="form-comment__form-input"
 						name="pseudo"
 						ref={pseudoRef}
+						required
+						onChange={clearError.bind(this, "pseudo")}
 					/>
+					{errors["pseudo"] && (
+						<div className="form-comment__form-error">
+							{errors["pseudo"]}
+						</div>
+					)}
 					<Field
 						help="Les commentaires non conformes à notre règle de conduite
 					seront modérés"
 						ref={commentRef}
-						error={errors["content"]}
+						error={errors["comment"]}
 						name="comment"
+						onChange={clearError.bind(this, "comment")}
+						required
 					/>
 					<button
 						type="submit"
-						className={className(
-							"form-comment__form-button",
-							loading && "disabled"
-						)}
+						className="form-comment__form-button"
 						disabled={loading}
 					>
 						Envoyer votre commentaire
@@ -78,6 +94,13 @@ export default function FormComment({ error, recipe }) {
 	);
 }
 
+FormComment.propTypes = {
+	error: PropTypes.bool, // booléen pour indiquer s'il y a une erreur générale
+	recipe: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+		.isRequired, // ID de la recette sous forme de chaîne ou nombre
+	onComment: PropTypes.func.isRequired, // Fonction de rappel lorsque le commentaire est envoyé
+};
+
 const Field = React.forwardRef(
 	({ help, name, children, error, onChange }, ref) => {
 		if (error) {
@@ -86,21 +109,42 @@ const Field = React.forwardRef(
 		return (
 			<div
 				className={className(
-					"form-comment__form-textarea",
+					"form-comment__form-div",
 					error && "has-error"
 				)}
 			>
 				<label htmlFor={name}>{children}</label>
 				<textarea
 					placeholder="Entrez votre commentaire"
-					className="form-comment__form-textarea"
+					className={className(
+						"form-comment__form-textarea",
+						error && "has-error"
+					)}
 					ref={ref}
 					name={name}
 					id={name}
 					onChange={onChange}
+					required
 				/>
-				{help && <div>{help}</div>}
+				{help && (
+					<div
+						className={className(
+							"form-comment__form-textarea-help",
+							error && "has-error"
+						)}
+					>
+						{help}
+					</div>
+				)}
 			</div>
 		);
 	}
 );
+
+Field.propTypes = {
+	help: PropTypes.string, // Texte d'aide pour le champ
+	name: PropTypes.string.isRequired, // Nom du champ (identifiant unique)
+	children: PropTypes.node, // Enfant de label, ici pour le texte du label
+	error: PropTypes.string, // Message d'erreur (ou texte à afficher en cas d’erreur)
+	onChange: PropTypes.func.isRequired, // Fonction de rappel pour les changements dans le textarea
+};
