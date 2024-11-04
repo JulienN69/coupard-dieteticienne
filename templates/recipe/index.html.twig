@@ -1,9 +1,19 @@
 {% extends 'base.html.twig' %}
-
+{% block header %}
+{% include "partials/headerDark.html.twig" %}
+{% endblock %}
 {% block body %}
 
-<div {{ react_component('RecipeDetail', {'id': recipe.id}) }}></div>
-<div {{ react_component('Comments', {'id': recipe.id}) }}></div>
+<section class="sectionRecipes">
+	<h2>Recettes</h2>
+	<div class="sectionRecipes__container">
+		<div class="sectionRecipes__container-react" {{ react_component('Recipes', {'url': '/api/get/recipes' }) }}>
+		</div>
+		{% if is_granted('ROLE_ADMIN') %}
+		<button class="btnLight">Ajouter une recette</button>
+		{% endif %}
+	</div>
+</section>
 
 
 {% endblock %}

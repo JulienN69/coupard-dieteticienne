@@ -42,11 +42,11 @@ export default function Recipes({ url, disablePagination }) {
 					<a
 						key={index}
 						className="recipe-card"
-						href={`/recipe/${recipe.id}`}
+						href={`/recipe/show/${recipe.id}`}
 					>
 						<img
 							className="recipe-card__image"
-							src={recipe.image}
+							src={`/${recipe.image}`}
 							alt={recipe.title}
 						/>
 						<h3 className="recipe-card__title">

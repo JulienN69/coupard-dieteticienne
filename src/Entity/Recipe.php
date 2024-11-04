@@ -6,7 +6,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Controller\CountController;
 use App\Repository\RecipeRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
@@ -17,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups'=> ['read:collection']],
+    normalizationContext: ['groups'=> ['read:collection'], 'max_depth' => 2],
     operations: [
         new GetCollection(
             paginationItemsPerPage: 3,
@@ -38,13 +37,6 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
         ),
         new Get(),
         new Post(),
-        new Get(
-            uriTemplate: '/get/recipes/count',
-            controller: CountController::class,
-            read: false,
-            description: 'publish',
-            shortName: 'compteur'
-        ),
     ]
 )]
 class Recipe
@@ -79,7 +71,7 @@ class Recipe
      * @var Collection<int, ingredient>
      */
     #[Groups(['read:collection'])]
-    #[MaxDepth(50)]
+    #[MaxDepth(2)]
     #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'recipes')]
     private Collection $ingredients;
 
@@ -117,6 +109,7 @@ class Recipe
      * @var Collection<int, Comments>
      */
     #[Groups(['read:collection'])]
+    #[MaxDepth(2)]
     #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'recipe')]
     private Collection $comments;
 

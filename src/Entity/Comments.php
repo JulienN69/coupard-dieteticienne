@@ -15,8 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     operations: [
-        new GetCollection(),
-        new Get(),
         new Post(
             uriTemplate: '/recipe/commentss',
             read: false,
@@ -24,6 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             shortName: 'create comment',
             validationContext: ['groups' => ['Default', 'comment:create']]
         ),
+        new GetCollection(),
         new Get(
             uriTemplate: '/get/recipes/{id}/comments',
             controller: CommentsController::class,

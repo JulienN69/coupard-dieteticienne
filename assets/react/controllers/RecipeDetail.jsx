@@ -29,7 +29,7 @@ export default function RecipeDetail({ id }) {
 						))}
 				</div>
 				<div className="recipe-detail__img-container">
-					<img src={`../${items.image}`} alt={items.title} />
+					<img src={`/${items.image}`} alt={items.title} />
 					<p>{items.description}</p>
 				</div>
 				<div className="recipe-detail__time-container">

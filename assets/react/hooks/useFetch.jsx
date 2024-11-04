@@ -102,3 +102,29 @@ export default function useLoadData(url) {
 		loading,
 	};
 }
+
+export function useLoadIngredientData(url) {
+	const [items, setItems] = useState([]);
+	const [loading, setLoading] = useState(false);
+
+	const load = useCallback(
+		async (pageUrl = url) => {
+			setLoading(true);
+			try {
+				const response = await jsonLdFetch(pageUrl);
+
+				setItems(response["hydra:member"]);
+			} catch (error) {
+				console.error(error);
+				setLoading(false);
+			}
+		},
+		[url]
+	);
+
+	return {
+		items,
+		load,
+		loading,
+	};
+}

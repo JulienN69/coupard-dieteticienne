@@ -1,0 +1,64 @@
+@use "../base/_all" as *
+
+.section-ingredient
+	columns: 2
+	column-gap: 0.5rem
+
+.card-categorie
+	background-color: white
+	border-radius: 10px
+	font-family: "Baloo 2", sans-serif
+	transition: max-height 1s ease // Transition pour l'ouverture/fermeture
+	max-height: 4rem // Hauteur initiale fermée
+	overflow: hidden
+	margin-bottom: 0.5rem
+	-webkit-box-shadow: 6px 8px 17px 3px rgba(0,0,0,0.24)
+	box-shadow: 6px 8px 17px 3px rgba(0,0,0,0.24)
+
+	&__head
+		display: flex
+		justify-content: space-between
+		padding: 0.5rem
+		height: 4rem
+
+	&__head-title
+		display: flex
+		flex-direction: column
+
+		h2
+			font-size: 1.5rem
+			color: $gray
+			font-weight: inherit
+
+		span
+			color: $sugar
+			font-size: 1rem
+
+	&__head-btn
+		background-color: transparent
+		border: none
+		cursor: pointer
+
+	&__content
+		display: flex
+		flex-wrap: wrap
+		border-top: 1px solid #b5a0a0
+
+		&-ingredient
+			display: flex
+			justify-content: center
+			align-content: center
+			background-color: $sugar
+			border-radius: 10px
+			margin: 0.3rem
+			padding: 0.3rem
+			color: $gray
+			cursor: pointer
+			&:hover
+				background-color: $brown
+
+.isOpen
+	max-height: 500px // Ajustez cette valeur pour la hauteur souhaitée
+
+.isNotOpen
+	max-height: 4rem // Hauteur fermée

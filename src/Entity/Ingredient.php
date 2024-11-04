@@ -2,23 +2,32 @@
 
 namespace App\Entity;
 
-use App\Repository\IngredientRepository;
-use ApiPlatform\Metadata\ApiResource;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\IngredientRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\MaxDepth;
 
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new Get(),
+    ],
+    normalizationContext: ['groups' => ['user:read']],
+    denormalizationContext: ['groups' => ['user:create', 'user:update']],
+)]
 #[ORM\Entity(repositoryClass: IngredientRepository::class)]
 class Ingredient
 {
+    #[Groups(['read:ingredient'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'read:ingredient'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -31,6 +40,11 @@ class Ingredient
     #[Groups(['read:collection'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+    #[Groups(['read:collection'])]
+    #[MaxDepth(10)]
+    #[ORM\ManyToOne(inversedBy: 'ingredients')]
+    private ?Categorie $categorie = null;
 
     public function __construct()
     {
@@ -89,6 +103,18 @@ class Ingredient
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): static
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }

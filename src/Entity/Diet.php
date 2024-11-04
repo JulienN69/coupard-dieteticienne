@@ -2,14 +2,22 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DietRepository;
 use ApiPlatform\Metadata\ApiResource;
-use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+    ],
+    normalizationContext: ['groups' => ['user:read']],
+    denormalizationContext: ['groups' => ['user:create', 'user:update']],
+)]
 #[ORM\Entity(repositoryClass: DietRepository::class)]
 class Diet
 {

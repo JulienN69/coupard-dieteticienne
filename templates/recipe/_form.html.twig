@@ -1,0 +1,79 @@
+{{ form_start(form) }}
+<div class="form-recipe__container">
+
+    <!-- Champ pour le titre -->
+    <div class="form-group">
+        {{ form_label(form.title) }}
+        {{ form_widget(form.title) }}
+        {{ form_errors(form.title, {'attr': {'class': 'form-error'}}) }}
+    </div>
+
+    <!-- Champ pour la description -->
+    <div class="form-group">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+        {{ form_errors(form.description, {'attr': {'class': 'form-error'}}) }}
+    </div>
+
+    <div class="separator"></div>
+
+    <!-- Champ pour le temps de préparation -->
+    <div class="form-group">
+        {{ form_label(form.preparationTime) }}
+        {{ form_widget(form.preparationTime) }}
+        {{ form_errors(form.preparationTime, {'attr': {'class': 'form-error'}}) }}
+    </div>
+
+    <!-- Champ pour le temps de repos -->
+    <div class="form-group">
+        {{ form_label(form.restingTime) }}
+        {{ form_widget(form.restingTime) }}
+        {{ form_errors(form.restingTime, {'attr': {'class': 'form-error'}}) }}
+    </div>
+
+    <!-- Champ pour le temps de cuisson -->
+    <div class="form-group">
+        {{ form_label(form.cookingTime) }}
+        {{ form_widget(form.cookingTime) }}
+        {{ form_errors(form.cookingTime, {'attr': {'class': 'form-error'}}) }}
+    </div>
+
+    <div class="separator"></div>
+
+    <!-- Champ pour les ingrédients (React component) -->
+    <div {{ react_component('IngredientsForm') }}></div>
+
+    <!-- Champ pour les régimes alimentaires -->
+    <div class="form-group">
+        {{ form_label(form.diets) }}
+        {{ form_widget(form.diets) }}
+        {{ form_errors(form.diets, {'attr': {'class': 'form-error'}}) }}
+    </div>
+
+    <!-- Champ pour les allergènes -->
+    <div class="form-group">
+        {{ form_label(form.allergens) }}
+        {{ form_widget(form.allergens) }}
+        {{ form_errors(form.allergens, {'attr': {'class': 'form-error'}}) }}
+    </div>
+
+    <div class="separator"></div>
+
+    <!-- Champ pour l'image -->
+    <div class="form-group">
+        {{ form_label(form.image) }}
+        {{ form_widget(form.image) }}
+        {{ form_errors(form.image, {'attr': {'class': 'form-error'}}) }}
+    </div>
+
+    <div class="separator"></div>
+
+    <!-- Champ pour les étapes (React component) -->
+    <div {{ react_component('StepsForm') }}></div>
+
+    <div class="separator"></div>
+
+    <!-- Bouton de soumission -->
+    <button type="submit" class="form__btn">{{ button_label|default('Enregistrer') }}</button>
+</div>
+{{ form_end(form) }}

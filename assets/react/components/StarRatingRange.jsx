@@ -56,7 +56,7 @@ export default function StarRatingRange() {
 							onMouseEnter={() => onMouseEnter(index)}
 							onMouseLeave={onMouseLeave}
 							onClick={openForm} // Corrige pour ouvrir le formulaire
-							size="1.5x"
+							size="2x"
 							style={{ cursor: "pointer" }}
 						/>
 					))}

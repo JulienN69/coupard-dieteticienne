@@ -23,21 +23,7 @@ class PageController extends AbstractController
         ]);
     }
 
-    #[Route('/recipes', name: 'recipes')]
-    public function recipes(RecipeRepository $recipeRepository): Response
-    {
-        return $this->render('recipes/index.html.twig');
-    }
 
-    #[Route('/recipe/{id}', name: 'recipe{id}')]
-    public function recipe(RecipeRepository $recipeRepository, int $id): Response
-    {
-        $recipe = $recipeRepository->find($id);
-
-        return $this->render('recipe/index.html.twig', [
-            'recipe' => $recipe
-        ]);
-    }
 
     #[Route('/admin', name: 'admin')]
     #[IsGranted('ROLE_ADMIN')]

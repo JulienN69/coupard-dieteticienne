@@ -16,7 +16,7 @@ export default function SectionList({ title, items, className }) {
 								className={`${className}-item`}
 								key={item.id || index}
 							>
-								<img src={`../${item.image}`} alt={item.name} />
+								<img src={`/${item.image}`} alt={item.name} />
 								<p>{item.name}</p>
 							</div>
 						))}
@@ -33,6 +33,6 @@ SectionList.propTypes = {
 			image: PropTypes.string.isRequired,
 			name: PropTypes.string.isRequired,
 		})
-	).isRequired,
+	),
 	className: PropTypes.string.isRequired,
 };

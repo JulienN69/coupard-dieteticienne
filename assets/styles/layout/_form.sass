@@ -1,8 +1,9 @@
 @use "../base/_all" as *
 
-.login-section, .admin-section
+.login-section, .admin-section, .form-section
 	background-color: black
 	font-family: "Baloo Bhaina", sans-serif
+
 	&__title
 		text-align: center
 		margin: 0
@@ -14,37 +15,40 @@
 	max-width: 600px
 	margin: 0 auto
 	padding: 20px
-	background-color: #000000
+	background-color: $lightgray
 	color: #FFFFFF
 	font-family: "Baloo Bhaina", sans-serif
 	border: $green 3px solid
 	border-radius: 20px
-	@include flex-center
-	align-items: normal
+	display: flex
+	flex-direction: column
 
 	&__label
 		@include input($green)
-		emargin-bottom: 0.5rem
 		font-weight: bold
+		padding-bottom: 0.5rem
+
 	&__input
 		@include input($black)
 		padding: 0.75rem
 		border-radius: 5px
 		border: 1px solid $green
 		font-size: 1rem
+		margin-bottom: 1rem
+
 	&__choices
 		@include input($white)
 		font-size: 1rem
+
 		input
 			margin: 0.3rem
+
 	&__btn
-		@include button($black, $green)
-		color: $green
-		margin: 2rem auto
-		padding: 0 2rem
+		@include button($green, $green)
+		color: $black
 		&:hover
-			color: $black
-			background-color: $green
+			background-color: darken($green, 30%)
+			color: white
 
 .form-group
 	display: flex
@@ -55,3 +59,12 @@
 	font-size: 0.9rem
 	color: #e74c3c
 	font-style: italic
+
+.separator
+	width: 60%
+	border: 1px solid $gray
+	margin: 2rem auto
+
+.container-btn
+	display: flex
+	flex-direction: column
