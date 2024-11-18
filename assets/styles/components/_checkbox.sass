@@ -1,0 +1,55 @@
+@use "../base/_all" as *
+
+.form__label
+	font-weight: bold
+	margin-bottom: 0.5rem
+	display: block
+
+.checkbox-wrapper
+	display: grid
+	grid-template-columns: repeat(2, 1fr)
+	gap: 0.5rem
+
+.checkbox-item
+	display: flex
+	align-items: center
+
+	input[type="checkbox"]
+		display: none
+
+	label
+		position: relative
+		padding-left: 35px
+		cursor: pointer
+		line-height: 1.5
+		color: #333
+		font-size: 16px
+
+		&::before
+			content: ""
+			position: absolute
+			left: 0
+			top: 50%
+			transform: translateY(-50%)
+			height: 20px
+			width: 20px
+			background-color: #fff
+			border: 2px solid #ccc
+			border-radius: 50%
+			transition: background-color 0.2s ease, border-color 0.2s ease
+
+	input[type="checkbox"]:checked + label::before
+		background-color: #66bb6a
+		border-color: #66bb6a
+
+	input[type="checkbox"]:checked + label::after
+		content: ""
+		position: absolute
+		left: 7px
+		top: 50%
+		transform: translate(10%, -50%) rotate(45deg)
+		width: 6px
+		height: 12px
+		border: solid white
+		border-width: 0 2px 2px 0
+		transition: opacity 0.2s ease

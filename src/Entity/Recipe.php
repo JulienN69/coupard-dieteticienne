@@ -68,14 +68,6 @@ class Recipe
     private ?int $cookingTime = null;
 
     /**
-     * @var Collection<int, ingredient>
-     */
-    #[Groups(['read:collection'])]
-    #[MaxDepth(2)]
-    #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'recipes')]
-    private Collection $ingredients;
-
-    /**
      * @var Collection<int, diet>
      */
     #[Groups(['read:collection'])]
@@ -113,13 +105,21 @@ class Recipe
     #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'recipe')]
     private Collection $comments;
 
+    /**
+     * @var Collection<int, recipeIngredient>
+     */
+    #[Groups(['read:collection'])]
+    #[MaxDepth(2)]
+    #[ORM\OneToMany(targetEntity: RecipeIngredient::class, mappedBy: 'recipe')]
+    private Collection $recipeIngredients;
+
     public function __construct()
     {
-        $this->ingredients = new ArrayCollection();
         $this->diets = new ArrayCollection();
         $this->allergens = new ArrayCollection();
         $this->steps = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->recipeIngredients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,30 +183,6 @@ class Recipe
     public function setCookingTime(?int $cookingTime): static
     {
         $this->cookingTime = $cookingTime;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ingredient>
-     */
-    public function getIngredients(): Collection
-    {
-        return $this->ingredients;
-    }
-
-    public function addIngredient(Ingredient $ingredient): static
-    {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients->add($ingredient);
-        }
-
-        return $this;
-    }
-
-    public function removeIngredient(Ingredient $ingredient): static
-    {
-        $this->ingredients->removeElement($ingredient);
 
         return $this;
     }
@@ -321,6 +297,36 @@ public function removeComment(Comments $comment): static
     if ($this->comments->removeElement($comment) && $comment->getRecipe() === $this) {
         // set the owning side to null
         $comment->setRecipe(null);
+    }
+
+    return $this;
+}
+
+/**
+ * @return Collection<int, recipeIngredient>
+ */
+public function getRecipeIngredients(): Collection
+{
+    return $this->recipeIngredients;
+}
+
+public function addRecipeIngredient(recipeIngredient $recipeIngredient): static
+{
+    if (!$this->recipeIngredients->contains($recipeIngredient)) {
+        $this->recipeIngredients->add($recipeIngredient);
+        $recipeIngredient->setRecipe($this);
+    }
+
+    return $this;
+}
+
+public function removeRecipeIngredient(recipeIngredient $recipeIngredient): static
+{
+    if ($this->recipeIngredients->removeElement($recipeIngredient)) {
+        // set the owning side to null (unless already changed)
+        if ($recipeIngredient->getRecipe() === $this) {
+            $recipeIngredient->setRecipe(null);
+        }
     }
 
     return $this;

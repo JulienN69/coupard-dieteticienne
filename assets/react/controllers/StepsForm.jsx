@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaMinus } from "react-icons/fa";
+import AddButton from "./AddButton";
 
 export default function StepsForm() {
 	const [steps, setSteps] = useState([{ id: 1, content: "" }]);
@@ -29,27 +30,22 @@ export default function StepsForm() {
 		<div>
 			{steps.map((step, index) => (
 				<div key={step.id} className="form-group">
-					<h2 className="form__label">Étape {step.id}</h2>
+					<h2 className="form-group__title">Étape {step.id}</h2>
 					<textarea
-						placeholder="Étape pour la réalisation de la recette"
+						placeholder="description de l'étape"
+						className="form__textarea"
 						value={step.content}
 						onChange={(e) => handleStepChange(index, e)}
 					/>
 				</div>
 			))}
-			<div className="btn-container">
-				<div>
-					<button className="form__btn" onClick={addStep}>
-						<FaPlus />
-					</button>
-					<span>Ajouter une étape</span>
-				</div>
-				<button className="form__btn" onClick={removeStep}>
-					Supprimer la dernière étape
-				</button>
-				<button className="form__btn" type="submit">
-					Valider
-				</button>
+			<div className="Step-buttons">
+				<AddButton label="Ajouter une étape" onClick={addStep} />
+				<AddButton
+					label="Supprimer la dernière étape"
+					onClick={removeStep}
+					icon={<FaMinus />}
+				/>
 			</div>
 		</div>
 	);

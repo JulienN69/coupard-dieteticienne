@@ -24,21 +24,21 @@ class RecipeType extends AbstractType
             ->add('description', null, [
                 'label' => 'Description',
                 'label_attr' => ['class' => 'form__label'],
-                'attr' => ['class' => 'form__input'],
+                'attr' => ['class' => 'form__textarea'],
             ])
             ->add('preparationTime', null, [
-                'label' => 'Temps de préparation (minutes)',
-                'label_attr' => ['class' => 'form__label'],
+                'label' => 'préparation',
+                'label_attr' => ['class' => 'form__label-time'],
                 'attr' => ['class' => 'form__input'],
             ])
             ->add('restingTime', null, [
-                'label' => 'Temps de repos (minutes)',
-                'label_attr' => ['class' => 'form__label'],
+                'label' => 'repos',
+                'label_attr' => ['class' => 'form__label-time'],
                 'attr' => ['class' => 'form__input'],
             ])
             ->add('cookingTime', null, [
-                'label' => 'Temps de cuisson (minutes)',
-                'label_attr' => ['class' => 'form__label'],
+                'label' => 'cuisson',
+                'label_attr' => ['class' => 'form__label-time'],
                 'attr' => ['class' => 'form__input'],
             ])
             ->add('image', null, [
@@ -51,7 +51,7 @@ class RecipeType extends AbstractType
                 'choice_label' => 'name',
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['class' => 'form__choices'],
+                'attr' => ['class' => 'checkbox-item'],
                 'label' => 'Allergènes',
                 'label_attr' => ['class' => 'form__label'],
             ])
@@ -60,7 +60,7 @@ class RecipeType extends AbstractType
                 'choice_label' => 'name',
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['class' => 'form__choices'],
+                'attr' => ['class' => 'checkbox-item'],
                 'label' => 'Régimes',
                 'label_attr' => ['class' => 'form__label'],
             ]);

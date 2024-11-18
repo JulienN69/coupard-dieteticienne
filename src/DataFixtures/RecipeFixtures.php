@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use App\Entity\Steps;
 use App\Entity\Recipe;
+use App\Entity\RecipeIngredient;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -27,8 +28,8 @@ class RecipeFixtures extends Fixture  implements DependentFixtureInterface
         "Égoutter les pâtes, remettez les dans la casserole et ajoutez un peu d'huile pour éviter que ça colle."
     ];
 
-    $totalIngredients = 19; // Assurez-vous que c'est correct par rapport à vos fixtures
     $totalAllergens = 10; // Assurez-vous que c'est correct par rapport à vos fixtures
+    $totalIngredients = 19; // Assurez-vous que c'est correct par rapport à vos fixtures
 
     $faker = Factory::create('fr_FR');
 
@@ -52,17 +53,31 @@ class RecipeFixtures extends Fixture  implements DependentFixtureInterface
             $recipe->addStep($step);
         }
 
-        $numIngredients = rand(2, 8);
-        $selectedIngredients = [];
+   // Créer et associer les ingrédients
+            $numIngredients = rand(2, 8);
+            $selectedIngredients = [];
+            while (count($selectedIngredients) < $numIngredients) {
+                $randomIndex = rand(0, $totalIngredients - 1);
+                if (!in_array($randomIndex, $selectedIngredients)) {
+                    $selectedIngredients[] = $randomIndex;
 
-        while (count($selectedIngredients) < $numIngredients) {
-            $randomIndex = rand(0, $totalIngredients - 1);
-            if (!in_array($randomIndex, $selectedIngredients)) {
-                $selectedIngredients[] = $randomIndex;
-                $ingredient = $this->getReference('ingredient_' . $randomIndex); // Correction ici
-                $recipe->addIngredient($ingredient);
+                    // Ajouter des ingrédients à la recette en créant les objets RecipeIngredient
+                    $ingredient = $this->getReference('ingredient_' . $randomIndex);
+
+                    // Créer le RecipeIngredient
+                    $recipeIngredient = new RecipeIngredient();
+                    $recipeIngredient->setIngredient($ingredient);
+                    $recipeIngredient->setRecipe($recipe); // Associe la recette à cet ingrédient
+
+                    // Ajouter la quantité aléatoire
+                    $quantities = ['50g', '100g', '1 cuillère', '1 pincée', '200ml'];
+                    $recipeIngredient->setQuantity($quantities[array_rand($quantities)]);
+
+                    // Ajouter le RecipeIngredient à la recette
+                    $recipe->addRecipeIngredient($recipeIngredient);
+                    $manager->persist($recipeIngredient);
+                }
             }
-        }
 
         $numAllergens = rand(0, 4);
         $selectedAllergens = [];

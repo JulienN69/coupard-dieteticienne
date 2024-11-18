@@ -12,21 +12,25 @@
 		font-size: 2.5rem
 
 .form
-	max-width: 600px
+	max-width: 1000px
 	margin: 0 auto
 	padding: 20px
 	background-color: $lightgray
 	color: #FFFFFF
 	font-family: "Baloo Bhaina", sans-serif
-	border: $green 3px solid
 	border-radius: 20px
 	display: flex
 	flex-direction: column
 
 	&__label
-		@include input($green)
+		@include input($black)
 		font-weight: bold
 		padding-bottom: 0.5rem
+
+		&-time
+			font-weight: normal
+			color: $brown
+			font-size: 1rem
 
 	&__input
 		@include input($black)
@@ -35,6 +39,15 @@
 		border: 1px solid $green
 		font-size: 1rem
 		margin-bottom: 1rem
+		caret-color: $green
+		width: 100%
+		&:focus
+			border: 3px solid $green
+
+	&__textarea
+		@extend .form__input
+		height: 130px
+		resize: none
 
 	&__choices
 		@include input($white)
@@ -54,6 +67,20 @@
 	display: flex
 	flex-direction: column
 
+	&__title
+		font-family: "baloo 2", sans-serif
+		color: $darkgray
+		margin-bottom: 0.3rem
+		font-size: 1.2rem
+
+.form-row
+	display: flex
+	justify-content: space-between
+	margin-top: 0.5rem
+
+	&__div
+		margin-right: 0.5rem
+
 .form-error
 	margin-top: 0.25rem
 	font-size: 0.9rem
@@ -65,6 +92,70 @@
 	border: 1px solid $gray
 	margin: 2rem auto
 
-.container-btn
+.selected
+	background-color: $brown
+
+.btn-container
+	display: flex
+	justify-content: left
+	align-items: center
+	padding-top: 1rem
+
+.addBtn
+	all: unset
+	display: flex
+	justify-content: center
+	align-items: center
+	width: 30px
+	height: 30px
+	border-radius: 50%
+	background-color: $lightgreen
+	cursor: pointer
+	&:hover
+		background-color: $brown
+	svg
+		color: $black
+
+	&__span
+		padding-left: 0.5rem
+		color: $lightgreen
+		font-size: 1.5rem
+		padding-top: 0.2rem
+
+.addBtn:hover + span
+	color: $brown
+
+.ingredient-selected
+	display: flex
+	align-items: center
+	padding-top: 0.5rem
+
+	&__div
+		display: flex
+		justify-content: center
+		align-content: center
+		background-color: $brown
+		border-radius: 10px
+		margin-right: 0.5rem
+		padding: 0.5rem 0.7rem
+		color: $darkgray
+		font-family: "Baloo 2", sans-serif
+
+	&__input
+		caret-color: $green
+		border: 1px solid $lightgreen
+		font-family: "Baloo 2", sans-serif
+		color: $darkgray
+		height: 30px
+		border-radius: 5px
+		&:placeholder-shown
+			color: $sugar
+			padding: 0.2rem
+			padding-top: 0.4rem
+		&:focus
+			border: 3px solid $brown
+			padding: 0.2rem
+
+.steps-buttons
 	display: flex
 	flex-direction: column

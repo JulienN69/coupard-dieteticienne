@@ -18,6 +18,7 @@ export default function SectionList({ title, items, className }) {
 							>
 								<img src={`/${item.image}`} alt={item.name} />
 								<p>{item.name}</p>
+								{item.quantity && <p>{item.quantity}</p>}
 							</div>
 						))}
 				</div>

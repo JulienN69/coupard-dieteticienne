@@ -4,38 +4,37 @@
     <!-- Champ pour le titre -->
     <div class="form-group">
         {{ form_label(form.title) }}
-        {{ form_widget(form.title) }}
+        {{ form_widget(form.title, {'attr': {'placeholder': 'Entrez le titre ici'}}) }}
         {{ form_errors(form.title, {'attr': {'class': 'form-error'}}) }}
     </div>
 
     <!-- Champ pour la description -->
     <div class="form-group">
         {{ form_label(form.description) }}
-        {{ form_widget(form.description) }}
+        {{ form_widget(form.description, {'attr': {'placeholder': 'Entrez la description de votre recette'}}) }}
         {{ form_errors(form.description, {'attr': {'class': 'form-error'}}) }}
     </div>
 
     <div class="separator"></div>
 
-    <!-- Champ pour le temps de préparation -->
-    <div class="form-group">
-        {{ form_label(form.preparationTime) }}
-        {{ form_widget(form.preparationTime) }}
-        {{ form_errors(form.preparationTime, {'attr': {'class': 'form-error'}}) }}
-    </div>
-
-    <!-- Champ pour le temps de repos -->
-    <div class="form-group">
-        {{ form_label(form.restingTime) }}
-        {{ form_widget(form.restingTime) }}
-        {{ form_errors(form.restingTime, {'attr': {'class': 'form-error'}}) }}
-    </div>
-
-    <!-- Champ pour le temps de cuisson -->
-    <div class="form-group">
-        {{ form_label(form.cookingTime) }}
-        {{ form_widget(form.cookingTime) }}
-        {{ form_errors(form.cookingTime, {'attr': {'class': 'form-error'}}) }}
+    <!-- Champ pour les temps de préparations -->
+    <h2 class="form__label">Durée de la recette (en minutes)</h2>
+    <div class="form-row">
+        <div class="form-row__div">
+            {{ form_label(form.preparationTime) }}
+            {{ form_widget(form.preparationTime) }}
+            {{ form_errors(form.preparationTime, {'attr': {'class': 'form-error'}}) }}
+        </div>
+        <div class="form-row__div">
+            {{ form_label(form.restingTime) }}
+            {{ form_widget(form.restingTime) }}
+            {{ form_errors(form.restingTime, {'attr': {'class': 'form-error'}}) }}
+        </div>
+        <div class="form-row__div">
+            {{ form_label(form.cookingTime) }}
+            {{ form_widget(form.cookingTime) }}
+            {{ form_errors(form.cookingTime, {'attr': {'class': 'form-error'}}) }}
+        </div>
     </div>
 
     <div class="separator"></div>
@@ -43,18 +42,38 @@
     <!-- Champ pour les ingrédients (React component) -->
     <div {{ react_component('IngredientsForm') }}></div>
 
+    <div class="separator"></div>
+
     <!-- Champ pour les régimes alimentaires -->
     <div class="form-group">
         {{ form_label(form.diets) }}
-        {{ form_widget(form.diets) }}
+        <div class="checkbox-wrapper">
+            {% for diet in form.diets %}
+            <div class="checkbox-item">
+                {{ form_widget(diet) }}
+                <label for="{{ diet.vars.id }}">{{diet.vars.label}}</label>
+            </div>
+            {% endfor %}
+        </div>
         {{ form_errors(form.diets, {'attr': {'class': 'form-error'}}) }}
+        <div {{ react_component('AddButton', {'label': 'Ajouter un régime' }) }}></div>
     </div>
+
+    <div class="separator"></div>
 
     <!-- Champ pour les allergènes -->
     <div class="form-group">
         {{ form_label(form.allergens) }}
-        {{ form_widget(form.allergens) }}
+        <div class="checkbox-wrapper">
+            {% for allergen in form.allergens %}
+            <div class="checkbox-item">
+                {{ form_widget(allergen) }}
+                <label for="{{ allergen.vars.id }}">{{allergen.vars.label}}</label>
+            </div>
+            {% endfor %}
+        </div>
         {{ form_errors(form.allergens, {'attr': {'class': 'form-error'}}) }}
+        <div {{ react_component('AddButton', {'label': 'Ajouter un allergène' }) }}></div>
     </div>
 
     <div class="separator"></div>
@@ -69,6 +88,7 @@
     <div class="separator"></div>
 
     <!-- Champ pour les étapes (React component) -->
+    <div class="form__label">Etapes de réalisation</div>
     <div {{ react_component('StepsForm') }}></div>
 
     <div class="separator"></div>

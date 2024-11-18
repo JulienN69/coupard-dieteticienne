@@ -17,6 +17,7 @@ export default function RecipeDetail({ id }) {
 	if (!items || Object.keys(items).length === 0) {
 		return <div>Chargement...</div>;
 	}
+	console.log(items);
 
 	return (
 		<div className="recipe-detail-container">
@@ -44,7 +45,11 @@ export default function RecipeDetail({ id }) {
 				</div>
 				<SectionList
 					title="Ingrédients"
-					items={items.ingredients}
+					items={items.recipeIngredients.map((ri) => ({
+						image: ri.ingredient.image,
+						name: ri.ingredient.name,
+						quantity: ri.quantity,
+					}))}
 					className="recipe-detail__ingredients"
 				/>
 				<SectionList

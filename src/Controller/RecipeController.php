@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Recipe;
 use App\Form\RecipeType;
+use App\Entity\Ingredient;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/recipe')]
 final class RecipeController extends AbstractController {
@@ -31,11 +32,31 @@ final class RecipeController extends AbstractController {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($recipe);
-            $entityManager->flush();
+        // Récupérer les ingrédients depuis la requête
+        $ingredientsData = $request->request->get('ingredients');
+        dd($ingredientsData);
 
-            return $this->redirectToRoute('app_recipe_index', [], Response::HTTP_SEE_OTHER);
+    if ($ingredientsData) {
+        foreach ($ingredientsData as $ingredientName => $quantity) {
+            // Traiter chaque ingrédient et sa quantité
+            $ingredient = new Ingredient();
+            $ingredient->setName($ingredientName);
+            $ingredient->setQuantity($quantity);
+
+            // Associer l'ingrédient à la recette
+            $recipe->addIngredient($ingredient);
+
+            // Persister l'ingrédient si nécessaire
+            $entityManager->persist($ingredient);
         }
+    }
+
+    $entityManager->persist($recipe);
+    $entityManager->flush();
+
+    return $this->redirectToRoute('app_recipe_index', [], Response::HTTP_SEE_OTHER);
+}
+
 
         return $this->render('recipe/new.html.twig', [
             'recipe' => $recipe,
