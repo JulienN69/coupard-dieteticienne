@@ -10,11 +10,16 @@ use App\Repository\RecipeRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
+#[Vich\Uploadable]
 #[ApiResource(
     normalizationContext: ['groups'=> ['read:collection'], 'max_depth' => 2],
     operations: [
@@ -45,27 +50,47 @@ class Recipe
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+
     private ?int $id = null;
 
     #[Groups(['read:collection'])]
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 5,
+        max: 50,
+        minMessage: 'vous devez écrire plus de {{ limit }} caractères',
+        maxMessage: 'vous devez écrire moins de {{ limit }} caractères')]
     private ?string $title = null;
 
     #[Groups(['read:collection'])]
     #[ORM\Column(type: Types::TEXT)]
+        #[Assert\Length(
+            min: 10,
+            max: 300,
+            minMessage: 'vous devez écrire plus de {{ limit }} caractères',
+            maxMessage: 'vous devez écrire moins de {{ limit }} caractères')]
     private ?string $description = null;
 
     #[Groups(['read:collection'])]
     #[ORM\Column]
+    #[Assert\LessThan(600)]
+    #[Assert\Positive]
     private ?int $preparationTime = null;
 
     #[Groups(['read:collection'])]
+    #[Assert\LessThan(600)]
+    #[Assert\Positive]
     #[ORM\Column(nullable: true)]
     private ?int $restingTime = null;
 
     #[Groups(['read:collection'])]
+    #[Assert\LessThan(600)]
+    #[Assert\Positive]
     #[ORM\Column(nullable: true)]
     private ?int $cookingTime = null;
+
+    
 
     /**
      * @var Collection<int, diet>
@@ -88,6 +113,9 @@ class Recipe
     #[MaxDepth(2)]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @var Collection<int, Steps>
@@ -112,6 +140,9 @@ class Recipe
     #[MaxDepth(2)]
     #[ORM\OneToMany(targetEntity: RecipeIngredient::class, mappedBy: 'recipe')]
     private Collection $recipeIngredients;
+
+    #[Vich\UploadableField(mapping: 'recipe', fileNameProperty: 'image')]
+    private ?File $thumbnailFile = null;
 
     public function __construct()
     {
@@ -332,4 +363,27 @@ public function removeRecipeIngredient(recipeIngredient $recipeIngredient): stat
     return $this;
 }
 
+    /**
+     * Get the value of thumbnailFile
+     */
+    public function getThumbnailFile(): ?File
+    {
+        return $this->thumbnailFile;
+    }
+
+    public function setThumbnailFile(?File $thumbnailFile = null): void
+        {
+            $this->thumbnailFile = $thumbnailFile;
+
+            if (null !== $thumbnailFile) {
+                // It is required that at least one field changes if you are using doctrine
+                // otherwise the event listeners won't be called and the file is lost
+                $this->updatedAt = new \DateTimeImmutable();
+            }
+        }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
 }

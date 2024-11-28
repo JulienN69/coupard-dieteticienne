@@ -124,9 +124,35 @@ function IngredientsField({
 }
 
 function IngredientInput({ ingredient }) {
-	const [quantity, setQuantity] = useState("");
+	const [quantity, setQuantity] = useState(""); // Valeur saisie
+	const [errors, setErrors] = useState(""); // Erreur actuelle
 
-	// Fonction pour synchroniser avec le champ masqué
+	// Fonction pour valider la quantité saisie
+	const validateQuantity = (value) => {
+		console.log("Validation en cours pour:", value);
+		const regex = /^(?:[1-9][0-9]{0,3}|10000)\s*(?:[a-zA-Z]*)?$/;
+		if (!value) {
+			return "La quantité est obligatoire (max : 10000).";
+		}
+		if (!regex.test(value)) {
+			return "Vous devez indiquer un chiffre, puis éventuellement une unité de mesure";
+		}
+		if (value.length > 10) {
+			return "La quantité ne peut pas dépasser 10 caractères.";
+		}
+		return ""; // Pas d'erreur
+	};
+
+	// Fonction appelée lors de la modification du champ
+	const handleChange = (e) => {
+		const value = e.target.value;
+		console.log("Modification détectée :", value);
+		setQuantity(value); // Met à jour la valeur
+		const error = validateQuantity(value); // Valide la nouvelle valeur
+		setErrors(error); // Met à jour les erreurs
+	};
+
+	// Synchronisation avec le champ masqué
 	useEffect(() => {
 		const hiddenInput = document.querySelector(
 			`input[name="ingredients[${ingredient}]"]`
@@ -140,13 +166,18 @@ function IngredientInput({ ingredient }) {
 		<div className="ingredient-selected">
 			<div className="ingredient-selected__div">{ingredient}</div>
 			<input
-				className="ingredient-selected__input"
+				className={`ingredient-selected__input ${
+					errors ? "error-input" : ""
+				}`}
 				type="text"
 				placeholder="Quantité"
 				value={quantity}
-				onChange={(e) => setQuantity(e.target.value)}
+				onChange={handleChange}
 			/>
-			{/* Champ masqué pour la synchronisation avec le formulaire */}
+			{/* Affichage du message d'erreur */}
+			{errors && <div className="error">{errors}</div>}
+
+			{/* Champ masqué pour la synchronisation */}
 			<input
 				type="hidden"
 				name={`ingredients[${ingredient}]`}

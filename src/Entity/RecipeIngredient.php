@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,6 +20,15 @@ class RecipeIngredient
 
     #[Groups(['read:collection'])]
     #[ORM\Column(type: 'string')]
+            #[Assert\Length(
+            min: 1,
+            max: 10,
+            minMessage: 'vous devez écrire au moins {{ limit }} chiffre',
+            maxMessage: 'vous devez écrire moins de {{ limit }} caractères')]
+    #[Assert\Regex(
+        pattern: '/^(?:[1-9][0-9]{0,3}|10000)(?:[a-zA-Z]*)?$/',
+        message: 'Vous devez indiquer au minimum un chiffre, puis éventuellement une unité de mesure'
+    )]
     private ?string $quantity = null;
 
     #[ORM\ManyToOne(inversedBy: 'recipeIngredients')]

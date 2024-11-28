@@ -80,16 +80,20 @@
 
     <!-- Champ pour l'image -->
     <div class="form-group">
-        {{ form_label(form.image) }}
-        {{ form_widget(form.image) }}
-        {{ form_errors(form.image, {'attr': {'class': 'form-error'}}) }}
+        {{ form_label(form.thumbnailFile) }}
+        {{ form_widget(form.thumbnailFile) }}
+        {{ form_errors(form.thumbnailFile, {'attr': {'class': 'form-error'}}) }}
     </div>
 
     <div class="separator"></div>
 
     <!-- Champ pour les étapes (React component) -->
     <div class="form__label">Etapes de réalisation</div>
+    {% if stepsData is defined %}
+    <div {{ react_component('StepsForm', { StepsData: stepsData|raw }) }}></div>
+    {% else %}
     <div {{ react_component('StepsForm') }}></div>
+    {% endif %}
 
     <div class="separator"></div>
 

@@ -4,12 +4,13 @@ namespace App\Form;
 
 use App\Entity\Allergen;
 use App\Entity\Diet;
-use App\Entity\Ingredient;
 use App\Entity\Recipe;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class RecipeType extends AbstractType
 {
@@ -41,10 +42,11 @@ class RecipeType extends AbstractType
                 'label_attr' => ['class' => 'form__label-time'],
                 'attr' => ['class' => 'form__input'],
             ])
-            ->add('image', null, [
+            ->add('thumbnailFile', FileType::class, [
                 'label' => 'Image de la recette',
                 'label_attr' => ['class' => 'form__label'],
                 'attr' => ['class' => 'form__input'],
+                'required' => false, // Si l'image n'est pas obligatoire
             ])
             ->add('allergens', EntityType::class, [
                 'class' => Allergen::class,

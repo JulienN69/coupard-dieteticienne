@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import AddButton from "./AddButton";
 
-export default function StepsForm() {
-	const [steps, setSteps] = useState([{ id: 1, content: "" }]);
+export default function StepsForm({ StepsData = [] }) {
+	const [steps, setSteps] = useState(() => {
+		const parsedData = Array.isArray(StepsData)
+			? StepsData
+			: JSON.parse(StepsData);
+		return parsedData.map((step) => ({
+			id: step.stepNumber,
+			content: step.description,
+		}));
+	});
 
 	// Fonction pour ajouter une nouvelle étape
 	const addStep = (e) => {
@@ -47,6 +55,7 @@ export default function StepsForm() {
 					icon={<FaMinus />}
 				/>
 			</div>
+			<input type="hidden" name="steps" value={JSON.stringify(steps)} />
 		</div>
 	);
 }
