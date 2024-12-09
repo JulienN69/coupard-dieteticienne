@@ -3,21 +3,31 @@ import { useLoadIngredientData } from "../hooks/useFetch";
 import { FaChevronDown, FaChevronUp, FaPlus } from "react-icons/fa";
 import AddButton from "./AddButton";
 
-const className = (...args) => {
-	return args
-		.flatMap((arg) => {
-			if (typeof arg === "string") return arg;
-			if (typeof arg === "object")
-				return Object.keys(arg).filter((key) => arg[key]);
-			return [];
-		})
+const className = (...args) =>
+	args
+		.flatMap((arg) =>
+			typeof arg === "object"
+				? Object.keys(arg).filter((key) => arg[key])
+				: arg
+		)
 		.join(" ");
-};
 
-export default function IngredientsForm() {
+export default function IngredientsForm({ IngredientsData = [] }) {
+	console.log("ingredientsData:", IngredientsData);
+
 	const { items, load, loading } = useLoadIngredientData("/api/categories");
 	const [categories, setCategories] = useState([]);
-	const [selectedIngredients, setSelectedIngredients] = useState([]); // État pour les ingrédients sélectionnés
+	const [selectedIngredients, setSelectedIngredients] = useState([]);
+	const [parsedIngredientsData, setParsedIngredientsData] = useState(() => {
+		const parsedData = Array.isArray(IngredientsData)
+			? IngredientsData
+			: JSON.parse(IngredientsData);
+
+		return parsedData.map((ingredient) => ({
+			quantity: ingredient.quantity,
+			name: ingredient.ingredientName,
+		}));
+	});
 
 	useEffect(() => {
 		load();
@@ -31,15 +41,44 @@ export default function IngredientsForm() {
 		}
 	}, [items, loading]);
 
-	// Fonction pour gérer la sélection des ingrédients
-	const handleIngredientSelect = (ingredient) => {
-		setSelectedIngredients((prevSelected) => {
-			if (prevSelected.includes(ingredient)) {
-				return prevSelected.filter((item) => item !== ingredient);
-			} else {
-				return [...prevSelected, ingredient];
-			}
-		});
+	useEffect(() => {
+		// Ajoute les ingrédients déjà dans la recette à `selectedIngredients`
+		const initialSelection = parsedIngredientsData.map((item) => item.name);
+		setSelectedIngredients(initialSelection);
+	}, [parsedIngredientsData]);
+
+	const handleIngredientSelect = (ingredientName) => {
+		const isSelected = selectedIngredients.includes(ingredientName);
+
+		if (isSelected) {
+			// Supprimer l'ingrédient des ingrédients sélectionnés et des données existantes
+			setSelectedIngredients((prevSelected) =>
+				prevSelected.filter((item) => item !== ingredientName)
+			);
+			setParsedIngredientsData((prevData) =>
+				prevData.filter((item) => item.name !== ingredientName)
+			);
+		} else {
+			// Ajouter l'ingrédient aux ingrédients sélectionnés
+			setSelectedIngredients((prevSelected) => [
+				...prevSelected,
+				ingredientName,
+			]);
+			setParsedIngredientsData((prevData) => [
+				...prevData,
+				{ name: ingredientName, quantity: "" }, // Ajouter avec une quantité vide
+			]);
+		}
+	};
+
+	const handleQuantityChange = (ingredientName, newQuantity) => {
+		setParsedIngredientsData((prevData) =>
+			prevData.map((ingredient) =>
+				ingredient.name === ingredientName
+					? { ...ingredient, quantity: newQuantity }
+					: ingredient
+			)
+		);
 	};
 
 	return (
@@ -51,16 +90,22 @@ export default function IngredientsForm() {
 						key={categorie.id}
 						categorie={categorie.name}
 						totalIngredients={Object.values(categorie.ingredients)}
-						visibleIngredients={
-							Object.values(categorie.ingredients).length
-						}
-						onIngredientSelect={handleIngredientSelect} // Passe la fonction au composant enfant
+						selectedIngredients={selectedIngredients}
+						onIngredientSelect={handleIngredientSelect}
 					/>
 				))}
 			</div>
-			{selectedIngredients.map((ingredient) => (
-				<IngredientInput key={ingredient} ingredient={ingredient} />
-			))}
+			<div className="ingredients-selected-list">
+				{parsedIngredientsData.map((ingredient) => (
+					<IngredientInput
+						key={ingredient.name}
+						ingredientName={ingredient.name}
+						quantity={ingredient.quantity}
+						onRemove={() => handleIngredientSelect(ingredient.name)}
+						onQuantityChange={handleQuantityChange}
+					/>
+				))}
+			</div>
 			<AddButton label="Créer un ingrédient" />
 		</div>
 	);
@@ -68,23 +113,17 @@ export default function IngredientsForm() {
 
 function IngredientsField({
 	categorie,
-	visibleIngredients,
 	totalIngredients,
+	selectedIngredients,
 	onIngredientSelect,
 }) {
 	const [isOpen, setIsOpen] = useState(false);
-	const [ingredientSelected, setIngredientSelected] = useState([]);
 
-	const onClickIngredient = (e, ingredientText) => {
-		const isSelected = ingredientSelected.includes(ingredientText);
-		const updatedSelection = isSelected
-			? ingredientSelected.filter((item) => item !== ingredientText)
-			: [...ingredientSelected, ingredientText];
-		setIngredientSelected(updatedSelection);
-		onIngredientSelect(ingredientText); // Appelle la fonction parent avec l'ingrédient sélectionné
+	const onClickIngredient = (ingredientName) => {
+		onIngredientSelect(ingredientName);
 	};
 
-	const onClick = (e) => {
+	const toggleOpen = (e) => {
 		e.preventDefault();
 		setIsOpen(!isOpen);
 	};
@@ -94,95 +133,82 @@ function IngredientsField({
 			<div className="card-categorie__head">
 				<div className="card-categorie__head-title">
 					<h2>{categorie}</h2>
-					<span>{visibleIngredients} ingrédients</span>
+					<span>{totalIngredients.length} ingrédients</span>
 				</div>
-				<button className="card-categorie__head-btn" onClick={onClick}>
+				<button
+					className="card-categorie__head-btn"
+					onClick={toggleOpen}
+				>
 					{isOpen ? <FaChevronUp /> : <FaChevronDown />}
 				</button>
 			</div>
-
-			<div className="card-categorie__content">
-				{totalIngredients.map((ingredient) => (
-					<div
-						className={className(
-							"card-categorie__content-ingredient",
-							{
-								selected: ingredientSelected.includes(
-									ingredient.name
-								),
-							}
-						)}
-						key={ingredient.id}
-						onClick={(e) => onClickIngredient(e, ingredient.name)}
-					>
-						<div>{ingredient.name}</div>
-					</div>
-				))}
-			</div>
+			{isOpen && (
+				<div className="card-categorie__content">
+					{totalIngredients.map((ingredient) => (
+						<div
+							className={className(
+								"card-categorie__content-ingredient",
+								{
+									selected: selectedIngredients.includes(
+										ingredient.name
+									),
+								}
+							)}
+							key={ingredient.id}
+							onClick={() => onClickIngredient(ingredient.name)}
+						>
+							<div>{ingredient.name}</div>
+						</div>
+					))}
+				</div>
+			)}
 		</div>
 	);
 }
 
-function IngredientInput({ ingredient }) {
-	const [quantity, setQuantity] = useState(""); // Valeur saisie
-	const [errors, setErrors] = useState(""); // Erreur actuelle
+function IngredientInput({
+	ingredientName,
+	quantity,
+	onRemove,
+	onQuantityChange,
+}) {
+	const [currentQuantity, setCurrentQuantity] = useState(quantity || "");
+	const [errors, setErrors] = useState("");
 
-	// Fonction pour valider la quantité saisie
 	const validateQuantity = (value) => {
-		console.log("Validation en cours pour:", value);
 		const regex = /^(?:[1-9][0-9]{0,3}|10000)\s*(?:[a-zA-Z]*)?$/;
-		if (!value) {
-			return "La quantité est obligatoire (max : 10000).";
-		}
-		if (!regex.test(value)) {
+		if (!value) return "La quantité est obligatoire (max : 10000).";
+		if (!regex.test(value))
 			return "Vous devez indiquer un chiffre, puis éventuellement une unité de mesure";
-		}
-		if (value.length > 10) {
-			return "La quantité ne peut pas dépasser 10 caractères.";
-		}
-		return ""; // Pas d'erreur
+		return "";
 	};
 
-	// Fonction appelée lors de la modification du champ
 	const handleChange = (e) => {
 		const value = e.target.value;
-		console.log("Modification détectée :", value);
-		setQuantity(value); // Met à jour la valeur
-		const error = validateQuantity(value); // Valide la nouvelle valeur
-		setErrors(error); // Met à jour les erreurs
+		setCurrentQuantity(value);
+		setErrors(validateQuantity(value));
+		if (!validateQuantity(value)) {
+			onQuantityChange(ingredientName, value);
+		}
 	};
 
-	// Synchronisation avec le champ masqué
-	useEffect(() => {
-		const hiddenInput = document.querySelector(
-			`input[name="ingredients[${ingredient}]"]`
-		);
-		if (hiddenInput) {
-			hiddenInput.value = quantity;
-		}
-	}, [quantity, ingredient]);
-
 	return (
-		<div className="ingredient-selected">
-			<div className="ingredient-selected__div">{ingredient}</div>
+		<div className={`ingredient-selected ${errors ? "error" : ""}`}>
+			<div
+				className="ingredient-selected__div"
+				// onClick={onRemove} // Supprime l'ingrédient
+			>
+				{ingredientName}
+			</div>
 			<input
-				className={`ingredient-selected__input ${
-					errors ? "error-input" : ""
-				}`}
+				className="ingredient-selected__input"
 				type="text"
 				placeholder="Quantité"
-				value={quantity}
+				value={currentQuantity}
 				onChange={handleChange}
+				onClick={(e) => e.stopPropagation()} // Empêche la suppression accidentelle
 			/>
-			{/* Affichage du message d'erreur */}
 			{errors && <div className="error">{errors}</div>}
-
-			{/* Champ masqué pour la synchronisation */}
-			<input
-				type="hidden"
-				name={`ingredients[${ingredient}]`}
-				value={quantity}
-			/>
 		</div>
 	);
 }

@@ -40,7 +40,11 @@
     <div class="separator"></div>
 
     <!-- Champ pour les ingrédients (React component) -->
+    {% if ingredientsData is defined %}
+    <div {{ react_component('IngredientsForm', { IngredientsData: ingredientsData|raw }) }}></div>
+    {% else %}
     <div {{ react_component('IngredientsForm') }}></div>
+    {% endif %}
 
     <div class="separator"></div>
 

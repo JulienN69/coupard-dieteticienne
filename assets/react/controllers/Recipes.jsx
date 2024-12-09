@@ -46,7 +46,7 @@ export default function Recipes({ url, disablePagination }) {
 					>
 						<img
 							className="recipe-card__image"
-							src={`/${recipe.image}`}
+							src={`/images/recipe/${recipe.image}`}
 							alt={recipe.title}
 						/>
 						<h3 className="recipe-card__title">

@@ -8,7 +8,8 @@ export default function StepsForm({ StepsData = [] }) {
 			? StepsData
 			: JSON.parse(StepsData);
 		return parsedData.map((step) => ({
-			id: step.stepNumber,
+			id: step.id || null,
+			stepNumber: step.stepNumber,
 			content: step.description,
 		}));
 	});
@@ -16,7 +17,10 @@ export default function StepsForm({ StepsData = [] }) {
 	// Fonction pour ajouter une nouvelle étape
 	const addStep = (e) => {
 		e.preventDefault();
-		setSteps([...steps, { id: steps.length + 1, content: "" }]);
+		setSteps([
+			...steps,
+			{ id: null, stepNumber: steps.length + 1, content: "" },
+		]);
 	};
 
 	// Fonction pour supprimer la dernière étape
@@ -34,11 +38,20 @@ export default function StepsForm({ StepsData = [] }) {
 		setSteps(newSteps);
 	};
 
+	// Transformation des données avant l'envoi
+	const transformedSteps = steps.map((step, index) => ({
+		id: step.id,
+		stepNumber: index + 1, // Utilisation de "stepNumber" pour le backend
+		description: step.content,
+	}));
+
 	return (
 		<div>
 			{steps.map((step, index) => (
 				<div key={step.id} className="form-group">
-					<h2 className="form-group__title">Étape {step.id}</h2>
+					<h2 className="form-group__title">
+						Étape {step.stepNumber}
+					</h2>
 					<textarea
 						placeholder="description de l'étape"
 						className="form__textarea"
@@ -55,7 +68,11 @@ export default function StepsForm({ StepsData = [] }) {
 					icon={<FaMinus />}
 				/>
 			</div>
-			<input type="hidden" name="steps" value={JSON.stringify(steps)} />
+			<input
+				type="hidden"
+				name="steps"
+				value={JSON.stringify(transformedSteps)}
+			/>
 		</div>
 	);
 }

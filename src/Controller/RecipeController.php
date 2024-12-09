@@ -11,9 +11,9 @@ use App\Repository\StepsRepository;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\RecipeIngredientRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/recipe')]
@@ -108,34 +108,122 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
     }
 
     #[Route('/{id}/edit', name: 'app_recipe_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Recipe $recipe, EntityManagerInterface $entityManager, StepsRepository $stepsRepository): Response
-    {
-        $form = $this->createForm(RecipeType::class, $recipe);
+public function edit(Request $request, Recipe $recipe, EntityManagerInterface $entityManager, StepsRepository $stepsRepository, RecipeIngredientRepository $recipeIngredientRepository): Response
+{
+    $form = $this->createForm(RecipeType::class, $recipe);
+    $form->handleRequest($request);
 
-        // Récupérer les étapes associées à la recette
-        $stepsData = $stepsRepository->findBy(['recipe' => $recipe->getId()]);
-        $stepsData = array_map(function ($step) {
-            return [
-                'id' => $step->getId(),
-                'stepNumber' => $step->getStepNumber(),
-                'description' => $step->getDescription(),
-            ];
-        }, $stepsData);
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Gestion des étapes (steps)
+        $stepsJson = $request->request->get('steps'); // Récupère les données comme une chaîne JSON
+        $stepsData = json_decode($stepsJson, true); // Décodage en tableau associatif
 
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_recipe_index', [], Response::HTTP_SEE_OTHER);
+        // Supprimer les étapes existantes qui ne sont plus dans les nouvelles données
+        $existingSteps = $stepsRepository->findBy(['recipe' => $recipe->getId()]);
+        foreach ($existingSteps as $existingStep) {
+            $found = false;
+            foreach ($stepsData as $stepData) {
+                if ($stepData['id'] == $existingStep->getId()) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                $entityManager->remove($existingStep);
+            }
         }
 
-        return $this->render('recipe/edit.html.twig', [
-            'recipe' => $recipe,
-            'stepsData' => json_encode($stepsData),
-            'form' => $form,
-        ]);
+        // Ajouter ou mettre à jour les étapes
+        foreach ($stepsData as $stepData) {
+            $step = isset($stepData['id'])
+                ? $stepsRepository->find($stepData['id'])
+                : new Steps();
+
+            $step->setStepNumber($stepData['stepNumber']);
+            $step->setDescription($stepData['description']);
+            $step->setRecipe($recipe); // Réassocier l'étape à la recette
+
+            $entityManager->persist($step);
+        }
+
+        // Gestion des ingrédients
+        $ingredientsData = $request->request->all('ingredients');
+
+        // Supprimer les ingrédients existants qui ne sont plus dans les nouvelles données
+        $existingIngredients = $recipeIngredientRepository->findBy(['recipe' => $recipe->getId()]);
+        foreach ($existingIngredients as $existingRecipeIngredient) {
+            $found = false;
+            foreach ($ingredientsData as $ingredientName => $quantity) {
+                if ($existingRecipeIngredient->getIngredient()->getName() === $ingredientName) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                $entityManager->remove($existingRecipeIngredient);
+            }
+        }
+
+        // Ajouter ou mettre à jour les ingrédients
+        foreach ($ingredientsData as $ingredientName => $quantity) {
+            if (!is_string($ingredientName) || !is_numeric($quantity)) {
+                throw new \InvalidArgumentException("Ingrédient ou quantité invalide : $ingredientName => $quantity");
+            }
+
+            $ingredient = $entityManager->getRepository(Ingredient::class)
+                ->findOneBy(['name' => $ingredientName]);
+
+            if (!$ingredient) {
+                $ingredient = new Ingredient();
+                $ingredient->setName($ingredientName);
+                $entityManager->persist($ingredient);
+            }
+
+            $recipeIngredient = $recipeIngredientRepository->findOneBy([
+                'recipe' => $recipe->getId(),
+                'ingredient' => $ingredient->getId(),
+            ]) ?? new RecipeIngredient();
+
+            $recipeIngredient->setIngredient($ingredient);
+            $recipeIngredient->setQuantity((float)$quantity);
+            $recipeIngredient->setRecipe($recipe); // Réassocier à la recette
+
+            $entityManager->persist($recipeIngredient);
+        }
+
+        // Sauvegarde de la recette
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_recipe_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    // Préparation des données pour l'affichage du formulaire
+    $stepsData = $stepsRepository->findBy(['recipe' => $recipe->getId()]);
+    $stepsData = array_map(function ($step) {
+        return [
+            'id' => $step->getId(),
+            'stepNumber' => $step->getStepNumber(),
+            'description' => $step->getDescription(),
+        ];
+    }, $stepsData);
+
+    $ingredientsData = $recipeIngredientRepository->findBy(['recipe' => $recipe->getId()]);
+    $ingredientsData = array_map(function ($recipeIngredient) {
+        return [
+            'ingredientName' => $recipeIngredient->getIngredient()->getName(),
+            'quantity' => $recipeIngredient->getQuantity(),
+        ];
+    }, $ingredientsData);
+
+    return $this->render('recipe/edit.html.twig', [
+        'recipe' => $recipe,
+        'stepsData' => json_encode($stepsData),
+        'ingredientsData' => json_encode($ingredientsData),
+        'form' => $form,
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_recipe_delete', methods: ['POST'])]
     public function delete(Request $request, Recipe $recipe, EntityManagerInterface $entityManager): Response
